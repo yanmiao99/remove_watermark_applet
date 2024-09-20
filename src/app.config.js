@@ -14,6 +14,7 @@ export default defineAppConfig({
         'ExpressQuery/index',
         'HotSearchList/index',
         'WebLink/index',
+        'EatTodayWhat/index',
       ],
     },
   ],

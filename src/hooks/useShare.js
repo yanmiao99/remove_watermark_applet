@@ -10,7 +10,7 @@ const useShare = (props) => {
     return {
       title,
       path,
-      imageUrl:SHARE_TIMELINE_URL
+      imageUrl
     };
   });
 

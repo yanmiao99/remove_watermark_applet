@@ -16,6 +16,11 @@ const toolsList = [
     icon: 'https://qny.weizulin.cn/images/202409191819606.png',
     url: 'HotSearchList',
   },
+  {
+    title: '今天吃什么',
+    icon: 'https://qny.weizulin.cn/images/202409201355349.png',
+    url: 'EatTodayWhat',
+  },
 ];
 
 export default function CreateActivationCode() {
