@@ -1,0 +1,68 @@
+.create_activation_code {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  border-radius: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .code_title {
+    font-size: 20px;
+    color: #333;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  .code_content {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    .code_item {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      border-radius: 10px;
+      background: #f8f8f8;
+      margin-right: 10px;
+      font-size: 22px;
+      color: #000;
+      font-weight: 600;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .code_desc {
+    font-size: 14px;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+    View {
+      margin-top: 10px;
+    }
+  }
+  .code_btn {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
