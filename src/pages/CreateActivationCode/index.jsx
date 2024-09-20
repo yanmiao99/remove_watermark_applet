@@ -106,6 +106,19 @@ export default function CreateActivationCode() {
       title: '激活码生成成功',
       icon: 'success',
       duration: 2000,
+      success: () => {
+        // 复制到剪切板
+        Taro.setClipboardData({
+          data: res.data.codeArr.join(''),
+          success: () => {
+            Taro.showToast({
+              title: '激活码已复制',
+              icon: 'success',
+              duration: 2000,
+            });
+          },
+        });
+      },
     });
   };
 
