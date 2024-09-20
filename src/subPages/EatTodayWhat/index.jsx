@@ -2,10 +2,8 @@ import { useEffect, useState, useRef } from 'react';
 import { View, Image, Ad, Text } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import './index.less';
-import { Grid, Button } from '@nutui/nutui-react-taro';
+import { Button } from '@nutui/nutui-react-taro';
 import useShare from '@/src/hooks/useShare';
-import anime from 'animejs/lib/anime.es.js';
-import { createPortal } from '@tarojs/react';
 
 export default function EatTodayWhat() {
   useShare({
@@ -80,12 +78,50 @@ export default function EatTodayWhat() {
 
   const timerRef = useRef(null);
 
+  const count = useRef(0);
+
+  // 插屏广告
+  const insertAd = () => {
+    let interstitialAd = null;
+
+    // 在页面onLoad回调事件中创建插屏广告实例
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-c899d27840b7fcf7',
+      });
+      interstitialAd.onLoad(() => {
+        console.log('插屏广告加载成功');
+      });
+      interstitialAd.onError((err) => {
+        console.error('插屏广告加载失败', err);
+      });
+      interstitialAd.onClose(() => {
+        handleBtnClick();
+      });
+    }
+
+    // 在适合的场景显示插屏广告
+    if (interstitialAd) {
+      interstitialAd.show().catch((err) => {
+        console.error('插屏广告显示失败', err);
+      });
+    }
+  };
+
   // 开始 / 结束
   const handleBtnClick = () => {
+    console.log('count=======>', count);
+    if (count.current > 5) {
+      count.current = 0;
+      insertAd();
+      return;
+    }
+
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
       setBtnText('再来一次');
+      count.current += 1;
     } else {
       timerRef.current = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * mealOptions.length);
@@ -105,10 +141,6 @@ export default function EatTodayWhat() {
 
   return (
     <>
-      {/* <Ad
-        unit-id="adunit-fc0b31a19db60c2b"
-        style={{ margin: '20px 0' }}
-      /> */}
       <View className="eat_bg">
         <View className="eat_bg_text">
           {mealOptions.map((item, index) => (
