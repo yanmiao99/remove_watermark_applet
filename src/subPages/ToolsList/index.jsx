@@ -24,6 +24,8 @@ export default function CreateActivationCode() {
   return (
     <View className="tools_wrapper">
       <Ad
+        adIntervals={30}
+        updatetime={30}
         unit-id="adunit-fc0b31a19db60c2b"
         style={{ margin: '20px 0' }}
       />

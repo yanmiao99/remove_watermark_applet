@@ -32,3 +32,13 @@ export const queryTvBoxOffice = (data) => {
     method: 'GET',
   });
 };
+
+// 疯狂星期四
+// https://api.52vmy.cn/api/wl/yan/kfc
+export const queryCrazyThursday = (data) => {
+  return request({
+    url: '/wl/yan/kfc',
+    data,
+    method: 'GET',
+  });
+};

@@ -16,6 +16,7 @@ export default defineAppConfig({
         'WebLink/index',
         'EatTodayWhat/index',
         'TvBoxOffice/index',
+        'CrazyThursday/index',
       ],
     },
   ],

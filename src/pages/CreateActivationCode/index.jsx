@@ -163,6 +163,8 @@ export default function CreateActivationCode() {
       </View>
 
       <Ad
+        adIntervals={30}
+        updatetime={30}
         ad-type="video"
         unit-id="adunit-ce4acb7887d2e668"
         style={{ margin: '20px 0' }}

@@ -20,6 +20,11 @@ const toolsList = [
     icon: 'https://qny.weizulin.cn/images/202409201907749.png',
     url: 'TvBoxOffice',
   },
+  {
+    title:'疯狂星期四',
+    icon:'https://qny.weizulin.cn/images/202409202142563.jpg',
+    url:'CrazyThursday'
+  }
 ];
 
 export default toolsList;

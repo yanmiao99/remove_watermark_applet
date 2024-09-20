@@ -20,7 +20,7 @@ const request = (params) => {
       success: (res) => {
         const { code } = res.data;
         if (code === 200) {
-          resolve(res.data.data);
+          resolve(res.data.data || res.data.content);
         } else {
           Taro.showToast({
             title: res.data.msg,
