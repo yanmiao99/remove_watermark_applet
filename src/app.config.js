@@ -15,6 +15,7 @@ export default defineAppConfig({
         'HotSearchList/index',
         'WebLink/index',
         'EatTodayWhat/index',
+        'TvBoxOffice/index',
       ],
     },
   ],

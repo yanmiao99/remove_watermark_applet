@@ -22,3 +22,13 @@ export const queryHotSearch = (data) => {
     method: 'GET',
   });
 };
+
+// 电视剧实时票房
+// https://api.52vmy.cn/api/wl/top/tv?type=json
+export const queryTvBoxOffice = (data) => {
+  return request({
+    url: '/wl/top/tv',
+    data,
+    method: 'GET',
+  });
+};

@@ -21,6 +21,11 @@ const toolsList = [
     icon: 'https://qny.weizulin.cn/images/202409201355349.png',
     url: 'EatTodayWhat',
   },
+  {
+    title: '电视剧榜单',
+    icon: 'https://qny.weizulin.cn/images/202409201907749.png',
+    url: 'TvBoxOffice',
+  },
 ];
 
 export default function CreateActivationCode() {
