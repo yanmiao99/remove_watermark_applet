@@ -42,3 +42,13 @@ export const queryCrazyThursday = (data) => {
     method: 'GET',
   });
 };
+
+// 历史上的今天
+// https://api.52vmy.cn/api/wl/today/new
+export const queryHistoryToday = (data) => {
+  return request({
+    url: '/wl/today/new',
+    data,
+    method: 'GET',
+  });
+}

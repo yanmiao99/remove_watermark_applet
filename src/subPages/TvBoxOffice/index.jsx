@@ -55,7 +55,7 @@ export default function TvBoxOffice() {
     const res = await queryTvBoxOffice();
 
     let tempColumns = res.sort((a, b) => {
-      return a.currHeat - b.currHeat;
+      return b.currHeat - a.currHeat;
     });
 
     let resTemp = tempColumns.map((item, index) => {

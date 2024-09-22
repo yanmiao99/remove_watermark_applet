@@ -24,6 +24,11 @@ const toolsList = [
     title:'疯狂星期四',
     icon:'https://qny.weizulin.cn/images/202409202142563.jpg',
     url:'CrazyThursday'
+  },
+  {
+    title: '历史上的今天',
+    icon: 'https://qny.weizulin.cn/images/202409222019161.png',
+    url: 'HistoryToday',
   }
 ];
 

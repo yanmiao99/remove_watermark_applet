@@ -17,6 +17,7 @@ export default defineAppConfig({
         'EatTodayWhat/index',
         'TvBoxOffice/index',
         'CrazyThursday/index',
+        'HistoryToday/index',
       ],
     },
   ],
