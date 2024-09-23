@@ -54,7 +54,7 @@ export default function CrazyThursday() {
         <View className="crazy_thursday_img">
           <Image
             src={randomImg()}
-            mode="widthFix"
+            mode={'aspectFit'}
           />
         </View>
 

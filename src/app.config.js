@@ -19,6 +19,7 @@ export default defineAppConfig({
         'CrazyThursday/index',
         'HistoryToday/index',
         'GoldPrice/index',
+        'RandomPassword/index',
       ],
     },
   ],
