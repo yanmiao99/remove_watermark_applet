@@ -29,6 +29,11 @@ const toolsList = [
     title: '历史上的今天',
     icon: 'https://qny.weizulin.cn/images/202409222019161.png',
     url: 'HistoryToday',
+  },
+  {
+    title: '黄金价格',
+    icon: 'https://qny.weizulin.cn/images/202409231232375.png',
+    url: 'GoldPrice',
   }
 ];
 

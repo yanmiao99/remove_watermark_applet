@@ -18,6 +18,7 @@ export default defineAppConfig({
         'TvBoxOffice/index',
         'CrazyThursday/index',
         'HistoryToday/index',
+        'GoldPrice/index',
       ],
     },
   ],
