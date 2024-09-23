@@ -1,15 +1,15 @@
 
 const toolsList = [
-  {
-    title: '全国快递查询',
-    icon: 'https://qny.weizulin.cn/images/202409191818811.png',
-    url: 'ExpressQuery',
-  },
-  {
-    title: '热搜榜',
-    icon: 'https://qny.weizulin.cn/images/202409191819606.png',
-    url: 'HotSearchList',
-  },
+  // {
+  //   title: '全国快递查询',
+  //   icon: 'https://qny.weizulin.cn/images/202409191818811.png',
+  //   url: 'ExpressQuery',
+  // },
+  // {
+  //   title: '热搜榜',
+  //   icon: 'https://qny.weizulin.cn/images/202409191819606.png',
+  //   url: 'HotSearchList',
+  // },
   {
     title: '今天吃什么',
     icon: 'https://qny.weizulin.cn/images/202409201355349.png',
@@ -25,16 +25,16 @@ const toolsList = [
     icon:'https://qny.weizulin.cn/images/202409202142563.jpg',
     url:'CrazyThursday'
   },
-  {
-    title: '历史上的今天',
-    icon: 'https://qny.weizulin.cn/images/202409222019161.png',
-    url: 'HistoryToday',
-  },
-  {
-    title: '黄金价格',
-    icon: 'https://qny.weizulin.cn/images/202409231232375.png',
-    url: 'GoldPrice',
-  }
+  // {
+  //   title: '历史上的今天',
+  //   icon: 'https://qny.weizulin.cn/images/202409222019161.png',
+  //   url: 'HistoryToday',
+  // },
+  // {
+  //   title: '黄金价格',
+  //   icon: 'https://qny.weizulin.cn/images/202409231232375.png',
+  //   url: 'GoldPrice',
+  // }
 ];
 
 export default toolsList;

@@ -105,9 +105,7 @@ export default function CreateActivationCode() {
     }
   };
 
-  // 生成激活码
   const handleCreateActivationCode = async () => {
-    // 生成激活码
     const res = await createActivationCode({
       platform: 'WeChatApplet',
     });
@@ -162,16 +160,8 @@ export default function CreateActivationCode() {
         生成激活码
       </View>
 
-      <Ad
-        adIntervals={30}
-        updatetime={30}
-        ad-type="video"
-        unit-id="adunit-ce4acb7887d2e668"
-        style={{ margin: '20px 0' }}
-      />
-
       <Grid
-        style={{ width: '100%' }}
+        style={{ width: '100%', margin: '20px 0' }}
         gap={3}
         columns={3}>
         {randomToolsList.map((item, index) => {
@@ -192,6 +182,13 @@ export default function CreateActivationCode() {
           );
         })}
       </Grid>
+
+      <Ad
+        adIntervals={30}
+        updatetime={30}
+        ad-type="video"
+        unit-id="adunit-ce4acb7887d2e668"
+      />
     </View>
   );
 }
