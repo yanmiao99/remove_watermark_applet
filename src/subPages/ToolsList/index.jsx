@@ -6,7 +6,7 @@ import { Grid } from '@nutui/nutui-react-taro';
 import useShare from '@/src/hooks/useShare';
 import toolsList from '@/src/global/toolsList';
 
-export default function CreateActivationCode() {
+export default function ToolsList() {
   useShare({
     title: '工具集',
     path: '/subPages/ToolsList/index',
