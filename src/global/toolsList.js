@@ -20,17 +20,17 @@ const toolsList = [
   //   icon: 'https://qny.weizulin.cn/images/202409191819606.png',
   //   url: 'HotSearchList',
   // },
-
+  // {
+  //   title: '电视剧榜单',
+  //   icon: 'https://qny.weizulin.cn/images/202409201907749.png',
+  //   url: 'TvBoxOffice',
+  // },
   {
     title: '今天吃什么',
     icon: 'https://qny.weizulin.cn/images/202409201355349.png',
     url: 'EatTodayWhat',
   },
-  {
-    title: '电视剧榜单',
-    icon: 'https://qny.weizulin.cn/images/202409201907749.png',
-    url: 'TvBoxOffice',
-  },
+
   {
     title:'疯狂星期四',
     icon:'https://qny.weizulin.cn/images/202409202142563.jpg',

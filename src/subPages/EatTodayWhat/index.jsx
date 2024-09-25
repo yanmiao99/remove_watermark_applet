@@ -9,7 +9,8 @@ export default function EatTodayWhat() {
   useShare({
     title: '今天吃什么',
     path: '/subPages/EatTodayWhat/index',
-    imageUrl: 'https://qny.weizulin.cn/images/202409201355349.png',
+    timelineUrl: 'https://qny.weizulin.cn/images/202409201355349.png',
+    messageUrl: 'https://qny.weizulin.cn/images/202409251307577.png',
   });
 
   const mealOptions = [

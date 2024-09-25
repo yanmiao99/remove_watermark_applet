@@ -9,9 +9,10 @@ import { Reload, Copy } from '@nutui/icons-react-taro';
 
 export default function CrazyThursday() {
   useShare({
-    title: '疯狂星期四',
+    title: '疯狂星期四文案大全',
     path: '/subPages/CrazyThursday/index',
-    imageUrl: 'https://qny.weizulin.cn/images/202409202142563.jpg',
+    messageUrl: 'https://qny.weizulin.cn/images/202409251300066.png',
+    timelineUrl: 'https://qny.weizulin.cn/images/202409202142563.jpg',
   });
 
   useDidShow(() => {

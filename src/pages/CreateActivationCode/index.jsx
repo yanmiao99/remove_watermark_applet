@@ -7,8 +7,15 @@ import { createActivationCode } from '@/src/http/api.js';
 import { AnimatingNumbers } from '@nutui/nutui-react-taro';
 import toolsList from '@/src/global/toolsList';
 import { Grid } from '@nutui/nutui-react-taro';
+import useShare from '@/src/hooks/useShare';
+import likeGif from './assets/like.gif';
 
 export default function CreateActivationCode() {
+  useShare({
+    title: '短视频去水印',
+    path: '/pages/RemoveWatermark/index',
+  });
+
   // 当前激活码
   const [activationCode, setActivationCode] = useState([]);
 
@@ -30,6 +37,7 @@ export default function CreateActivationCode() {
 
   // 打开广告
   const handleOpenAd = () => {
+    Taro.hideLoading();
     Taro.showLoading({
       title: '广告加载中',
     });
@@ -58,6 +66,7 @@ export default function CreateActivationCode() {
       videoAd.onClose((res) => {
         // 用户点击了【关闭广告】按钮
         if (res && res.isEnded) {
+          Taro.hideLoading();
           // 正常播放结束，可以下发游戏奖励
           handleCreateActivationCode();
         } else {
@@ -134,6 +143,13 @@ export default function CreateActivationCode() {
 
   return (
     <View className="create_activation_code">
+      <View className="guideAttention">
+        <Image
+          mode="widthFix"
+          src={likeGif}
+        />
+      </View>
+
       <View className="code_title">激活码</View>
 
       <View className="code_content">

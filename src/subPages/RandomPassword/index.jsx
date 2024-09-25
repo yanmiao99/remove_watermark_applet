@@ -36,7 +36,8 @@ export default function RandomPassword() {
   useShare({
     title: '随机密码生成',
     path: '/subPages/RandomPassword/index',
-    imageUrl: 'https://qny.weizulin.cn/images/202409232141215.png',
+    timelineUrl: 'https://qny.weizulin.cn/images/202409232141215.png',
+    messageUrl: 'https://qny.weizulin.cn/images/202409251310332.png',
   });
 
   useDidShow(() => {});
@@ -107,24 +108,31 @@ export default function RandomPassword() {
             }}
             onFinish={(value) => handleGeneratePassword(value)}
             footer={
-              <View className="password_btn_group">
-                <Button
-                  block
-                  className="password_btn"
-                  type="primary"
-                  onClick={handleCopy}>
-                  <Copy />
-                  <Text>复制密码</Text>
-                </Button>
-                <Button
-                  nativeType="submit"
-                  block
-                  className="password_btn"
-                  type="primary">
-                  <Reload />
-                  <Text>生成密码</Text>
-                </Button>
-              </View>
+              <Space
+                direction="vertical"
+                style={{ marginTop: '20px ' }}>
+                <View className="password_btn_group">
+                  <Button
+                    block
+                    className="password_btn"
+                    type="primary"
+                    onClick={handleCopy}>
+                    <Copy />
+                    <Text>复制密码</Text>
+                  </Button>
+                  <Button
+                    nativeType="submit"
+                    block
+                    className="password_btn"
+                    type="primary">
+                    <Reload />
+                    <Text>生成密码</Text>
+                  </Button>
+                </View>
+                <View className="password_notice">
+                  注意 : 选项只会保证可选,不保证一定会包含
+                </View>
+              </Space>
             }>
             <Form.Item
               label="密码选项"
