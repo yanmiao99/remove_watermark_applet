@@ -1,11 +1,5 @@
 export default defineAppConfig({
-  pages: [
-    'pages/RemoveWatermark/index',
-    'pages/AnalysisDetails/index',
-    'pages/FAQ/index',
-    'pages/Tutorial/index',
-    'pages/CreateActivationCode/index',
-  ],
+  pages: ["pages/RemoveWatermark/index", "pages/AnalysisDetails/index", "pages/FAQ/index", "pages/Tutorial/index", "pages/CreateActivationCode/index"],
   subPackages: [
     {
       root: 'subPages/',
@@ -14,6 +8,7 @@ export default defineAppConfig({
         'EatTodayWhat/index',
         'CrazyThursday/index',
         'RandomPassword/index',
+        "NationalDayAvatar/index"
 
         // 'ExpressQuery/index',
         // 'HotSearchList/index',
@@ -25,9 +20,9 @@ export default defineAppConfig({
     },
   ],
   window: {
-    backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black',
+    backgroundTextStyle: "light",
+    navigationBarBackgroundColor: "#fff",
+    navigationBarTitleText: "WeChat",
+    navigationBarTextStyle: "black",
   },
 });
