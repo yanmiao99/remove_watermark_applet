@@ -10,7 +10,7 @@ export default function ToolsList() {
   useShare({
     title: '工具集',
     path: '/subPages/ToolsList/index',
-    imageUrl: 'https://qny.weizulin.cn/images/202409200920292.jpg',
+    messageUrl: 'https://qny.weizulin.cn/images/202409251340562.png',
   });
 
   useDidShow(() => {});
