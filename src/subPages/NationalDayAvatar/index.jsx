@@ -10,8 +10,8 @@ export default function NationalDayAvatar() {
   useShare({
     title: '国庆头像生成',
     path: '/subPages/NationalDayAvatar/index',
-    messageUrl: 'https://qny.weizulin.cn/images/202409252247610.jpg',
-    timelineUrl: 'https://qny.weizulin.cn/images/202409252247610.jpg',
+    messageUrl: 'https://qny.weizulin.cn/images/202409252328392.jpg',
+    timelineUrl: 'https://qny.weizulin.cn/images/202409252328392.jpg',
   });
 
   const bgImg = require('./assets/bg.png');
