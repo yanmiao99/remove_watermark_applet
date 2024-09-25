@@ -22,3 +22,33 @@ export const queryHotSearch = (data) => {
     method: 'GET',
   });
 };
+
+// 电视剧实时票房
+// https://api.52vmy.cn/api/wl/top/tv?type=json
+export const queryTvBoxOffice = (data) => {
+  return request({
+    url: '/wl/top/tv',
+    data,
+    method: 'GET',
+  });
+};
+
+// 疯狂星期四
+// https://api.52vmy.cn/api/wl/yan/kfc
+export const queryCrazyThursday = (data) => {
+  return request({
+    url: '/wl/yan/kfc',
+    data,
+    method: 'GET',
+  });
+};
+
+// 历史上的今天
+// https://api.52vmy.cn/api/wl/today/new
+export const queryHistoryToday = (data) => {
+  return request({
+    url: '/wl/today/new',
+    data,
+    method: 'GET',
+  });
+}

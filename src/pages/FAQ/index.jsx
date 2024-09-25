@@ -34,6 +34,8 @@ function FAQ() {
   return (
     <View className="faq">
       <Ad
+        adIntervals={30}
+        updatetime={30}
         unit-id="adunit-fc0b31a19db60c2b"
         style={{ margin: '20px 0' }}
       />

@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '生成激活码',
+  navigationBarTitleText: '今天吃什么',
   enableShareAppMessage: true,
   enableShareTimeline: true,
 });

@@ -4,30 +4,13 @@ import Taro, { useDidShow } from '@tarojs/taro';
 import './index.less';
 import { Grid } from '@nutui/nutui-react-taro';
 import useShare from '@/src/hooks/useShare';
+import toolsList from '@/src/global/toolsList';
 
-const toolsList = [
-  {
-    title: '全国快递查询',
-    icon: 'https://qny.weizulin.cn/images/202409191818811.png',
-    url: 'ExpressQuery',
-  },
-  {
-    title: '热搜榜',
-    icon: 'https://qny.weizulin.cn/images/202409191819606.png',
-    url: 'HotSearchList',
-  },
-  {
-    title: '国庆头像',
-    icon: 'https://qny.weizulin.cn/images/202409191819606.png',
-    url: 'NationalDayAvatar',
-  },
-];
-
-export default function CreateActivationCode() {
+export default function ToolsList() {
   useShare({
     title: '工具集',
     path: '/subPages/ToolsList/index',
-    imageUrl: 'https://qny.weizulin.cn/images/202409200920292.jpg',
+    messageUrl: 'https://qny.weizulin.cn/images/202409251340562.png',
   });
 
   useDidShow(() => {});
@@ -41,6 +24,8 @@ export default function CreateActivationCode() {
   return (
     <View className="tools_wrapper">
       <Ad
+        adIntervals={30}
+        updatetime={30}
         unit-id="adunit-fc0b31a19db60c2b"
         style={{ margin: '20px 0' }}
       />

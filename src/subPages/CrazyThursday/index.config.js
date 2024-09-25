@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '生成激活码',
+  navigationBarTitleText: '疯狂星期四文案',
   enableShareAppMessage: true,
   enableShareTimeline: true,
 });

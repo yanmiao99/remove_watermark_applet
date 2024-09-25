@@ -6,7 +6,6 @@ import Taro from '@tarojs/taro';
 import PlatformList from '@/src/components/PlatformList';
 import './index.less';
 import { ArrowRight, Copy, Star } from '@nutui/icons-react-taro';
-import { SHARE_APP_MESSAGE_URL } from '@/src/global/global';
 import useShare from '@/src/hooks/useShare';
 
 export default function RemoveWatermark() {
@@ -16,7 +15,6 @@ export default function RemoveWatermark() {
   useShare({
     title: '免费去水印',
     path: '/pages/RemoveWatermark/index',
-    imageUrl: SHARE_APP_MESSAGE_URL,
   });
 
   // 提交表单
@@ -160,6 +158,8 @@ export default function RemoveWatermark() {
       </View>
 
       <Ad
+        adIntervals={30}
+        updatetime={30}
         unit-id="adunit-fc0b31a19db60c2b"
         style={{ margin: '20px 0' }}
       />

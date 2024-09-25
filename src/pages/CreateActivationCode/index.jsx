@@ -1,14 +1,26 @@
 import { useState } from 'react';
-import { View, Ad } from '@tarojs/components';
+import { View, Ad, Image } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import './index.less';
 import { BASE_COLOR } from '@/src/global/global';
 import { createActivationCode } from '@/src/http/api.js';
 import { AnimatingNumbers } from '@nutui/nutui-react-taro';
+import toolsList from '@/src/global/toolsList';
+import { Grid } from '@nutui/nutui-react-taro';
+import useShare from '@/src/hooks/useShare';
+import likeGif from './assets/like.gif';
 
 export default function CreateActivationCode() {
+  useShare({
+    title: '短视频去水印',
+    path: '/pages/RemoveWatermark/index',
+  });
+
   // 当前激活码
   const [activationCode, setActivationCode] = useState([]);
+
+  // 工具列表 , 随机抽取3个
+  const randomToolsList = toolsList.sort(() => Math.random() - 0.5).slice(0, 3);
 
   useDidShow(() => {
     // 初始化激活码6个空字符
@@ -16,8 +28,16 @@ export default function CreateActivationCode() {
     setActivationCode(codeArr);
   });
 
+  // 点击工具
+  const handleClickGridItem = (url) => {
+    Taro.navigateTo({
+      url: `/subPages/${url}/index`,
+    });
+  };
+
   // 打开广告
   const handleOpenAd = () => {
+    Taro.hideLoading();
     Taro.showLoading({
       title: '广告加载中',
     });
@@ -38,7 +58,7 @@ export default function CreateActivationCode() {
         console.error('激励视频光告加载失败', err);
         Taro.hideLoading();
         Taro.showToast({
-          title: '广告加载失败,,请重试',
+          title: '加载错误,请重新进入小程序',
           icon: 'none',
           duration: 2000,
         });
@@ -46,6 +66,7 @@ export default function CreateActivationCode() {
       videoAd.onClose((res) => {
         // 用户点击了【关闭广告】按钮
         if (res && res.isEnded) {
+          Taro.hideLoading();
           // 正常播放结束，可以下发游戏奖励
           handleCreateActivationCode();
         } else {
@@ -59,7 +80,7 @@ export default function CreateActivationCode() {
       });
     } else {
       Taro.showToast({
-        title: '广告加载失败,请重试',
+        title: '加载错误,请重新进入小程序',
         icon: 'none',
         duration: 2000,
       });
@@ -78,7 +99,7 @@ export default function CreateActivationCode() {
           .catch((err) => {
             console.error('激励视频 广告显示失败', err);
             Taro.showToast({
-              title: '广告加载失败,请重试',
+              title: '加载错误,请重新进入小程序',
               icon: 'none',
               duration: 2000,
             });
@@ -86,16 +107,14 @@ export default function CreateActivationCode() {
       });
     } else {
       Taro.showToast({
-        title: '广告加载失败,请重试',
+        title: '加载错误,请重新进入小程序',
         icon: 'none',
         duration: 2000,
       });
     }
   };
 
-  // 生成激活码
   const handleCreateActivationCode = async () => {
-    // 生成激活码
     const res = await createActivationCode({
       platform: 'WeChatApplet',
     });
@@ -106,11 +125,31 @@ export default function CreateActivationCode() {
       title: '激活码生成成功',
       icon: 'success',
       duration: 2000,
+      success: () => {
+        // 复制到剪切板
+        Taro.setClipboardData({
+          data: res.data.codeArr.join(''),
+          success: () => {
+            Taro.showToast({
+              title: '激活码已复制',
+              icon: 'success',
+              duration: 2000,
+            });
+          },
+        });
+      },
     });
   };
 
   return (
     <View className="create_activation_code">
+      <View className="guideAttention">
+        <Image
+          mode="widthFix"
+          src={likeGif}
+        />
+      </View>
+
       <View className="code_title">激活码</View>
 
       <View className="code_content">
@@ -137,10 +176,34 @@ export default function CreateActivationCode() {
         生成激活码
       </View>
 
+      <Grid
+        style={{ width: '100%', margin: '20px 0' }}
+        gap={3}
+        columns={3}>
+        {randomToolsList.map((item, index) => {
+          return (
+            <Grid.Item
+              style={{
+                borderRadius: '10px',
+              }}
+              onClick={() => handleClickGridItem(item.url)}
+              key={item.title}
+              text={item.title}>
+              <Image
+                src={item.icon}
+                mode="widthFix"
+                style={{ width: '30px', height: '30px' }}
+              />
+            </Grid.Item>
+          );
+        })}
+      </Grid>
+
       <Ad
+        adIntervals={30}
+        updatetime={30}
         ad-type="video"
         unit-id="adunit-ce4acb7887d2e668"
-        style={{ marginTop: '20px' }}
       />
     </View>
   );

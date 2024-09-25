@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '生成激活码',
+  navigationBarTitleText: '随机密码生成器',
   enableShareAppMessage: true,
   enableShareTimeline: true,
 });

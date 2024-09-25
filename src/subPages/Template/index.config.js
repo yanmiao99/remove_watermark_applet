@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '生成激活码',
+  navigationBarTitleText: '模板名称',
   enableShareAppMessage: true,
   enableShareTimeline: true,
 });

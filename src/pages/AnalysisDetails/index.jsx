@@ -146,6 +146,8 @@ export default function AnalysisDetails() {
             activeType="card">
             <Tabs.TabPane title="封面">
               <Ad
+                adIntervals={30}
+                updatetime={30}
                 unit-id="adunit-fc0b31a19db60c2b"
                 style={{ marginBottom: '20px' }}
               />
@@ -200,6 +202,8 @@ export default function AnalysisDetails() {
             {dataDetails.type === 1 && (
               <Tabs.TabPane title="视频">
                 <Ad
+                  adIntervals={30}
+                  updatetime={30}
                   unit-id="adunit-fc0b31a19db60c2b"
                   style={{ marginBottom: '20px' }}
                 />
@@ -255,6 +259,8 @@ export default function AnalysisDetails() {
             {dataDetails.type === 2 && (
               <Tabs.TabPane title="图片">
                 <Ad
+                  adIntervals={30}
+                  updatetime={30}
                   unit-id="adunit-fc0b31a19db60c2b"
                   style={{ marginBottom: '20px' }}
                 />
@@ -307,6 +313,8 @@ export default function AnalysisDetails() {
 
             <Tabs.TabPane title="文案">
               <Ad
+                adIntervals={30}
+                updatetime={30}
                 unit-id="adunit-fc0b31a19db60c2b"
                 style={{ marginBottom: '20px' }}
               />
