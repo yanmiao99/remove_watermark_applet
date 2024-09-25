@@ -58,7 +58,7 @@ export default function CreateActivationCode() {
         console.error('激励视频光告加载失败', err);
         Taro.hideLoading();
         Taro.showToast({
-          title: '广告加载失败,,请重试',
+          title: '加载错误,请重新进入小程序',
           icon: 'none',
           duration: 2000,
         });
@@ -80,7 +80,7 @@ export default function CreateActivationCode() {
       });
     } else {
       Taro.showToast({
-        title: '广告加载失败,请重试',
+        title: '加载错误,请重新进入小程序',
         icon: 'none',
         duration: 2000,
       });
@@ -99,7 +99,7 @@ export default function CreateActivationCode() {
           .catch((err) => {
             console.error('激励视频 广告显示失败', err);
             Taro.showToast({
-              title: '广告加载失败,请重试',
+              title: '加载错误,请重新进入小程序',
               icon: 'none',
               duration: 2000,
             });
@@ -107,7 +107,7 @@ export default function CreateActivationCode() {
       });
     } else {
       Taro.showToast({
-        title: '广告加载失败,请重试',
+        title: '加载错误,请重新进入小程序',
         icon: 'none',
         duration: 2000,
       });
