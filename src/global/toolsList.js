@@ -43,7 +43,7 @@ const toolsList = [
   },
   {
     title: '国庆头像生成器',
-    icon: 'https://qny.weizulin.cn/images/202409252328392.jpg',
+    icon: 'https://qny.weizulin.cn/images/202409260118245.jpg',
     url: 'NationalDayAvatar',
   },
 ];

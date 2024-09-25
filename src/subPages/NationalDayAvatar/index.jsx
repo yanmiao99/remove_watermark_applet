@@ -1,4 +1,4 @@
-import { View, Image, ScrollView, Canvas } from '@tarojs/components';
+import { View, Image, ScrollView, Canvas, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useState } from 'react';
 import { Button } from '@nutui/nutui-react-taro';
@@ -8,10 +8,10 @@ import useShare from '@/src/hooks/useShare';
 
 export default function NationalDayAvatar() {
   useShare({
-    title: '国庆头像生成',
+    title: '国庆头像生成器',
     path: '/subPages/NationalDayAvatar/index',
-    messageUrl: 'https://qny.weizulin.cn/images/202409252328392.jpg',
-    timelineUrl: 'https://qny.weizulin.cn/images/202409252328392.jpg',
+    messageUrl: 'https://qny.weizulin.cn/images/202409260118245.jpg',
+    timelineUrl: 'https://qny.weizulin.cn/images/202409260118245.jpg',
   });
 
   const bgImg = require('./assets/bg.png');
@@ -28,19 +28,33 @@ export default function NationalDayAvatar() {
   });
 
   // 上传头像
-  const handleAvatarUpload = () => {
-    Taro.chooseMedia({
-      count: 1,
-      mediaType: ['image'],
-      success: (res) => {
-        if (res.errMsg === 'chooseMedia:ok') {
-          const file = res.tempFiles[0];
-          setIsDefaultAvatar(false);
-          setUploadAvatar(file.tempFilePath);
-          setCompositeAvatar(file.tempFilePath);
-        }
-      },
+  const handleAvatarUpload = (e) => {
+    Taro.showLoading({
+      title: '上传中',
     });
+
+    const { avatarUrl } = e.detail;
+
+    if (avatarUrl) {
+      setIsDefaultAvatar(false);
+      setUploadAvatar(avatarUrl);
+      setCompositeAvatar(avatarUrl);
+    }
+
+    Taro.hideLoading();
+
+    // Taro.chooseMedia({
+    //   count: 1,
+    //   mediaType: ['image'],
+    //   success: (res) => {
+    //     if (res.errMsg === 'chooseMedia:ok') {
+    //       const file = res.tempFiles[0];
+    //       setIsDefaultAvatar(false);
+    //       setUploadAvatar(file.tempFilePath);
+    //       setCompositeAvatar(file.tempFilePath);
+    //     }
+    //   },
+    // });
   };
 
   // 选择头像模板
@@ -165,14 +179,23 @@ export default function NationalDayAvatar() {
           src={bgTextImg}
         />
 
-        <View
-          className="national_day_avatar__preview is-default"
-          onClick={() => handleAvatarUpload()}>
-          <Image
-            class="national_day_avatar__preview-img"
-            src={isDefaultAvatar ? defaultAvatar : compositeAvatar}
-            mode={'aspectFill'}
-          />
+        <View className="national_day_avatar__preview">
+          {isDefaultAvatar ? (
+            <Text className="national_day_avatar__preview-text">
+              点击上传头像
+            </Text>
+          ) : null}
+
+          <button
+            class="national_day_avatar__preview-upload"
+            open-type="chooseAvatar"
+            onChooseAvatar={handleAvatarUpload}>
+            <Image
+              class="national_day_avatar__preview-img"
+              src={isDefaultAvatar ? defaultAvatar : compositeAvatar}
+              mode={'aspectFill'}
+            />
+          </button>
         </View>
 
         <ScrollView

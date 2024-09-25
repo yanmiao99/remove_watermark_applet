@@ -25,21 +25,33 @@
     margin: 0 auto;
   }
   .national_day_avatar__preview {
+    margin: 0 auto;
     text-align: center;
     margin: 80rpx 0;
-    &.is-default {
-      position: relative;
-      &::before {
-        content: '点击上传头像';
-        position: absolute;
-        bottom: 40rpx;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 28rpx;
-        white-space: nowrap;
-        font-weight: 500;
-        color: #333;
-        z-index: 1;
+    overflow: hidden;
+    position: relative;
+
+    .national_day_avatar__preview-text {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 28rpx;
+      white-space: nowrap;
+      color: #333;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      background: none;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      appearance: none;
+      all: unset;
+      &::after {
+        border: none;
       }
     }
     .national_day_avatar__preview-img {
