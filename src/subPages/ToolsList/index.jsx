@@ -16,6 +16,11 @@ const toolsList = [
     icon: 'https://qny.weizulin.cn/images/202409191819606.png',
     url: 'HotSearchList',
   },
+  {
+    title: '国庆头像',
+    icon: 'https://qny.weizulin.cn/images/202409191819606.png',
+    url: 'NationalDayAvatar',
+  },
 ];
 
 export default function CreateActivationCode() {
