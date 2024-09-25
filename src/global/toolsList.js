@@ -40,7 +40,12 @@ const toolsList = [
     title:'随机密码生成器',
     icon:'https://qny.weizulin.cn/images/202409232141215.png',
     url:'RandomPassword'
-  }
+  },
+  {
+    title: '国庆头像生成器',
+    icon: 'https://qny.weizulin.cn/images/202409252247610.jpg',
+    url: 'NationalDayAvatar',
+  },
 ];
 
 export default toolsList;
