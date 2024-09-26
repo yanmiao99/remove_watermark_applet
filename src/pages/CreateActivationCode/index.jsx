@@ -5,10 +5,9 @@ import './index.less';
 import { BASE_COLOR } from '@/src/global/global';
 import { createActivationCode } from '@/src/http/api.js';
 import { AnimatingNumbers } from '@nutui/nutui-react-taro';
-import toolsList from '@/src/global/toolsList';
-import { Grid } from '@nutui/nutui-react-taro';
 import useShare from '@/src/hooks/useShare';
 import likeGif from './assets/like.gif';
+import HotPosition from '@/src/components/HotPosition';
 
 export default function CreateActivationCode() {
   useShare({
@@ -19,21 +18,11 @@ export default function CreateActivationCode() {
   // 当前激活码
   const [activationCode, setActivationCode] = useState([]);
 
-  // 工具列表 , 随机抽取3个
-  const randomToolsList = toolsList.sort(() => Math.random() - 0.5).slice(0, 3);
-
   useDidShow(() => {
     // 初始化激活码6个空字符
     const codeArr = new Array(6).fill('');
     setActivationCode(codeArr);
   });
-
-  // 点击工具
-  const handleClickGridItem = (url) => {
-    Taro.navigateTo({
-      url: `/subPages/${url}/index`,
-    });
-  };
 
   // 打开广告
   const handleOpenAd = () => {
@@ -176,28 +165,7 @@ export default function CreateActivationCode() {
         生成激活码
       </View>
 
-      <Grid
-        style={{ width: '100%', margin: '20px 0' }}
-        gap={3}
-        columns={3}>
-        {randomToolsList.map((item, index) => {
-          return (
-            <Grid.Item
-              style={{
-                borderRadius: '10px',
-              }}
-              onClick={() => handleClickGridItem(item.url)}
-              key={item.title}
-              text={item.title}>
-              <Image
-                src={item.icon}
-                mode="widthFix"
-                style={{ width: '30px', height: '30px' }}
-              />
-            </Grid.Item>
-          );
-        })}
-      </Grid>
+      <HotPosition />
 
       <Ad
         adIntervals={30}

@@ -18,6 +18,7 @@ import {
 import Taro, { useDidShow } from '@tarojs/taro';
 import './index.less';
 import { BASE_COLOR, SUB_COLOR } from '@/src/global/global';
+import HotPosition from '@/src/components/HotPosition';
 
 export default function AnalysisDetails() {
   const [dataDetails, setDataDetails] = useState({}); // 数据详情
@@ -334,7 +335,9 @@ export default function AnalysisDetails() {
                 wrap
                 justify="between"
                 direction="vertical">
-                <Text>{dataDetails.title}</Text>
+                <Text>
+                  {dataDetails.title ? dataDetails.title : '暂无文案'}
+                </Text>
 
                 <Button
                   type="primary"
@@ -349,6 +352,9 @@ export default function AnalysisDetails() {
           </Tabs>
         </ConfigProvider>
       )}
+
+      <HotPosition />
+
       <Cell
         onClick={() => handleOperation('FAQ')}
         title="常见问题"

@@ -5,6 +5,7 @@ import './index.less';
 import useShare from '@/src/hooks/useShare';
 import anime from 'animejs/lib/anime.es.js';
 import { Dialog, TextArea, Button } from '@nutui/nutui-react-taro';
+import HotPosition from '@/src/components/HotPosition';
 
 export default function EatTodayWhat() {
   useShare({
@@ -120,7 +121,9 @@ export default function EatTodayWhat() {
         console.error('插屏广告加载失败', err);
       });
       interstitialAd.onClose(() => {
-        handleBtnClick();
+        // 销毁插屏广告实例
+        interstitialAd.destroy();
+        interstitialAd = null;
       });
     }
 
@@ -290,8 +293,8 @@ export default function EatTodayWhat() {
       <Dialog
         title="自定义菜单"
         visible={menuVisible}
-        onConfirm={handleMenuSave}
-        onCancel={() => setMenuVisible(false)}>
+        hideCancelButton
+        onConfirm={handleMenuSave}>
         <>
           <View className="menu_dialog_tips">
             自定义菜单列表, 请用英文逗号分隔
@@ -306,6 +309,9 @@ export default function EatTodayWhat() {
           />
         </>
       </Dialog>
+      <View className="eat_recommend_bit">
+        <HotPosition exclude={'EatTodayWhat'} />
+      </View>
     </View>
   );
 }

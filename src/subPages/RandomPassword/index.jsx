@@ -12,6 +12,7 @@ import {
   Space,
 } from '@nutui/nutui-react-taro';
 import { Reload, Copy } from '@nutui/icons-react-taro';
+import HotPosition from '@/src/components/HotPosition';
 
 const optionsMap = {
   number: {
@@ -174,13 +175,13 @@ export default function RandomPassword() {
         </View>
       </View>
 
-      <View className="password_ad">
-        <Ad
-          adIntervals={30}
-          updatetime={30}
-          unit-id="adunit-fc0b31a19db60c2b"
-        />
-      </View>
+      <HotPosition exclude={'RandomPassword'} />
+
+      <Ad
+        adIntervals={30}
+        updatetime={30}
+        unit-id="adunit-fc0b31a19db60c2b"
+      />
     </View>
   );
 }

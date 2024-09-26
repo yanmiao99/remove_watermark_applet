@@ -6,10 +6,10 @@ import { Button } from '@nutui/nutui-react-taro';
 import useShare from '@/src/hooks/useShare';
 import { queryCrazyThursday } from '@/src/http/toolsApi.js';
 import { Reload, Copy } from '@nutui/icons-react-taro';
+import HotPosition from '@/src/components/HotPosition';
 
 export default function CrazyThursday() {
   useShare({
-    // title: '疯狂星期四文案大全',
     title: 'KTC VME50 !!!',
     path: '/subPages/CrazyThursday/index',
     messageUrl: 'https://qny.weizulin.cn/images/202409251300066.png',
@@ -80,6 +80,9 @@ export default function CrazyThursday() {
           </Button>
         </View>
       </View>
+
+      <HotPosition exclude={'CrazyThursday'} />
+
       <Ad
         adIntervals={30}
         updatetime={30}

@@ -7,6 +7,7 @@ import PlatformList from '@/src/components/PlatformList';
 import './index.less';
 import { ArrowRight, Copy, Star } from '@nutui/icons-react-taro';
 import useShare from '@/src/hooks/useShare';
+import HotPosition from '@/src/components/HotPosition';
 
 export default function RemoveWatermark() {
   const [loading, setLoading] = useState(false);
@@ -133,7 +134,14 @@ export default function RemoveWatermark() {
       </Form>
 
       <View className="operation">
+        <HotPosition />
+
         <Cell.Group>
+          <Cell
+            onClick={() => handleToSubPackage('ToolsList')}
+            title="工具集"
+            extra={<ArrowRight size="14" />}
+          />
           <Cell
             onClick={() => handleOperation('FAQ')}
             title="常见问题"
@@ -149,20 +157,8 @@ export default function RemoveWatermark() {
             title="激活码生成"
             extra={<ArrowRight size="14" />}
           />
-          <Cell
-            onClick={() => handleToSubPackage('ToolsList')}
-            title="工具集"
-            extra={<ArrowRight size="14" />}
-          />
         </Cell.Group>
       </View>
-
-      <Ad
-        adIntervals={30}
-        updatetime={30}
-        unit-id="adunit-fc0b31a19db60c2b"
-        style={{ margin: '20px 0' }}
-      />
     </View>
   );
 }

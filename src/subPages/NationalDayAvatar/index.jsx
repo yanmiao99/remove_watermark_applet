@@ -5,6 +5,7 @@ import { Button } from '@nutui/nutui-react-taro';
 import avatarTemplate from './avatar.json';
 import './index.less';
 import useShare from '@/src/hooks/useShare';
+import HotPosition from '@/src/components/HotPosition';
 
 export default function NationalDayAvatar() {
   useShare({
@@ -28,7 +29,7 @@ export default function NationalDayAvatar() {
   });
 
   // 上传头像
-  const handleAvatarUpload = (e) => {
+  const handleAvatarUpload = async (e) => {
     Taro.showLoading({
       title: '上传中',
     });
@@ -42,19 +43,6 @@ export default function NationalDayAvatar() {
     }
 
     Taro.hideLoading();
-
-    // Taro.chooseMedia({
-    //   count: 1,
-    //   mediaType: ['image'],
-    //   success: (res) => {
-    //     if (res.errMsg === 'chooseMedia:ok') {
-    //       const file = res.tempFiles[0];
-    //       setIsDefaultAvatar(false);
-    //       setUploadAvatar(file.tempFilePath);
-    //       setCompositeAvatar(file.tempFilePath);
-    //     }
-    //   },
-    // });
   };
 
   // 选择头像模板
@@ -75,12 +63,6 @@ export default function NationalDayAvatar() {
       return;
     }
     setCurrentSelectedIndex(index);
-
-    // 生成一个1-1000的随机数
-    const random = Math.floor(Math.random() * 1000);
-    if (random % 3 === 0) {
-      insertAd();
-    }
 
     // 生成头像
     drawAvatar(avatarTemplate[index]);
@@ -145,11 +127,7 @@ export default function NationalDayAvatar() {
 
   // 保存头像
   const handleSaveAvatar = async () => {
-    // 生成一个1-1000的随机数
-    const random = Math.floor(Math.random() * 1000);
-    if (random % 5 === 0) {
-      insertAd();
-    }
+    insertAd();
 
     if (!uploadAvatar || isDefaultAvatar) {
       Taro.showToast({ title: '请上传并选择需要生成的头像图片', icon: 'none' });
@@ -173,6 +151,7 @@ export default function NationalDayAvatar() {
         class="national_day_avatar__bg"
         src={bgImg}
       />
+
       <View className="national_day_avatar__container">
         <Image
           class="national_day_avatar__title"
@@ -227,7 +206,12 @@ export default function NationalDayAvatar() {
           canvasId="avatarCanvas"
           id="avatarCanvas"
           className="national_day_avatar__preview-canvas"
-          style={canvasStyle}></Canvas>
+          style={canvasStyle}
+        />
+      </View>
+
+      <View className="national_day_avatar__hot">
+        <HotPosition exclude={'NationalDayAvatar'} />
       </View>
     </View>
   );
