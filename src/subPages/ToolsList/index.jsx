@@ -8,9 +8,9 @@ import toolsList from '@/src/global/toolsList';
 
 export default function ToolsList() {
   useShare({
-    title: '工具集',
+    title: '一个超级实用的工具箱，快来看看吧！',
     path: '/subPages/ToolsList/index',
-    messageUrl: 'https://qny.weizulin.cn/images/202409251340562.png',
+    messageUrl: 'https://qny.weizulin.cn/images/202409260920724.jpg',
   });
 
   useDidShow(() => {});

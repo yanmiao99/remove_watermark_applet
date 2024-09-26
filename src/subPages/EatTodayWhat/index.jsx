@@ -7,7 +7,7 @@ import useShare from '@/src/hooks/useShare';
 
 export default function EatTodayWhat() {
   useShare({
-    title: '今天吃什么',
+    title: '来看看今天吃什么 ~',
     path: '/subPages/EatTodayWhat/index',
     timelineUrl: 'https://qny.weizulin.cn/images/202409201355349.png',
     messageUrl: 'https://qny.weizulin.cn/images/202409251307577.png',
