@@ -2,8 +2,9 @@ import { useEffect, useState, useRef } from 'react';
 import { View, Image, Ad, Text } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import './index.less';
-import { Button } from '@nutui/nutui-react-taro';
 import useShare from '@/src/hooks/useShare';
+import anime from 'animejs/lib/anime.es.js';
+import { Dialog, TextArea, Button } from '@nutui/nutui-react-taro';
 
 export default function EatTodayWhat() {
   useShare({
@@ -13,7 +14,7 @@ export default function EatTodayWhat() {
     messageUrl: 'https://qny.weizulin.cn/images/202409251307577.png',
   });
 
-  const mealOptions = [
+  const BaseMealOptions = [
     '宫保鸡丁',
     '鱼香肉丝',
     '红烧肉',
@@ -71,7 +72,22 @@ export default function EatTodayWhat() {
     '炒牛肉',
   ];
 
-  useDidShow(() => {});
+  useDidShow(() => {
+    // 判断是否有自定义菜单
+    Taro.getStorage({
+      key: 'mealOptions',
+      success: (res) => {
+        setMealOptions(res.data);
+      },
+      fail: () => {
+        setMealOptions(BaseMealOptions);
+      },
+    })
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   const [textContent, setTextContent] = useState('');
 
@@ -80,6 +96,13 @@ export default function EatTodayWhat() {
   const timerRef = useRef(null);
 
   const count = useRef(0);
+
+  const [mealOptions, setMealOptions] = useState(BaseMealOptions);
+
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  // 临时菜单
+  const [tempMenu, setTempMenu] = useState([]);
 
   // 插屏广告
   const insertAd = () => {
@@ -111,7 +134,7 @@ export default function EatTodayWhat() {
 
   // 开始 / 结束
   const handleBtnClick = () => {
-    console.log('count=======>', count);
+    // console.log('count=======>', count);
     if (count.current > 5) {
       count.current = 0;
       insertAd();
@@ -125,11 +148,90 @@ export default function EatTodayWhat() {
       count.current += 1;
     } else {
       timerRef.current = setInterval(() => {
-        const randomIndex = Math.floor(Math.random() * mealOptions.length);
-        setTextContent(mealOptions[randomIndex]);
+        // 删除空字符串
+        let templateList = mealOptions.filter((item) => item !== '');
+
+        const randomIndex = Math.floor(Math.random() * templateList.length);
+        setTextContent(templateList[randomIndex]);
       }, 100);
       setBtnText('停止');
     }
+  };
+
+  // 保存自定义菜单
+  const handleMenuSave = () => {
+    if (tempMenu.length === 0 || tempMenu[0] === '') {
+      // 询问是否使用默认菜单
+      Taro.showModal({
+        title: '提示',
+        content: '自定义菜单为空, 是否使用默认菜单?',
+        success: (res) => {
+          if (res.confirm) {
+            setMealOptions(BaseMealOptions);
+            setMenuVisible(false);
+            Taro.setStorage({
+              key: 'mealOptions',
+              data: [],
+            });
+            Taro.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000,
+            });
+          }
+        },
+      });
+      return;
+    }
+
+    // 最少5个
+    if (tempMenu.length < 5) {
+      Taro.showToast({
+        title: '最少5个菜单',
+        icon: 'none',
+        duration: 2000,
+      });
+      return;
+    }
+
+    setMealOptions(tempMenu);
+    setMenuVisible(false);
+    Taro.showToast({
+      title: '保存成功',
+      icon: 'success',
+      duration: 2000,
+      success: () => {
+        // 保存到本地
+        Taro.setStorage({
+          key: 'mealOptions',
+          data: tempMenu,
+        });
+        setTempMenu([]);
+      },
+    });
+  };
+
+  // 打开自定义菜单
+  const handleOpenMenu = () => {
+    // 读取本地存储
+    Taro.getStorage({
+      key: 'mealOptions',
+      success: (res) => {
+        setTempMenu(res.data);
+        setMealOptions(res.data);
+      },
+      fail: () => {
+        setMealOptions([]);
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    setMenuVisible(true);
   };
 
   useEffect(() => {
@@ -141,45 +243,69 @@ export default function EatTodayWhat() {
   }, []);
 
   return (
-    <>
-      <View className="eat_bg">
-        <View className="eat_bg_text">
-          {mealOptions.map((item, index) => (
-            <Text
-              key={index}
-              className="eat_bg_text_item"
-              style={{
-                top: `${Math.floor(Math.random() * 100)}vh`,
-                left: `${Math.floor(Math.random() * 100)}vw`,
-                transform: `scale(${Math.random() * 0.5 + 1})`,
-                opacity: Math.random(),
-                animationDelay: `${Math.random() * index * 20}s`,
-                animation: `zoom ${Math.random() * 4 + 1}s linear infinite`,
-              }}>
-              {item}
-            </Text>
-          ))}
-        </View>
-
-        <View className="eat_wrapper">
-          <View className="eat_title">今天吃什么</View>
-
-          <View
-            className="eat_content"
+    <View className="eat_bg">
+      <View className="eat_bg_text">
+        {mealOptions.map((item, index) => (
+          <Text
+            key={index}
+            className="eat_bg_text_item"
             style={{
-              height: textContent ? '50px' : '1px',
+              top: `${Math.floor(Math.random() * 100)}vh`,
+              left: `${Math.floor(Math.random() * 100)}vw`,
+              transform: `scale(${Math.random() * 0.5 + 1})`,
+              opacity: Math.random(),
+              animationDelay: `${Math.random() * index * 20}s`,
+              animation: `zoom ${Math.random() * 4 + 1}s linear infinite`,
             }}>
-            {textContent}
-          </View>
-
-          <Button
-            className="eat_btn"
-            onClick={() => handleBtnClick()}
-            type="primary">
-            {btnText}
-          </Button>
-        </View>
+            {item}
+          </Text>
+        ))}
       </View>
-    </>
+
+      <View className="eat_wrapper">
+        <View className="eat_title">今天吃什么</View>
+
+        <View
+          className="eat_content"
+          style={{
+            height: textContent ? '50px' : '1px',
+          }}>
+          {textContent}
+        </View>
+
+        <Button
+          className="eat_btn"
+          onClick={() => handleBtnClick()}
+          type="primary">
+          {btnText}
+        </Button>
+
+        <Text
+          className="eat_custom_menu"
+          onClick={handleOpenMenu}>
+          自定义菜单
+        </Text>
+      </View>
+
+      <Dialog
+        title="自定义菜单"
+        visible={menuVisible}
+        onConfirm={handleMenuSave}
+        onCancel={() => setMenuVisible(false)}>
+        <>
+          <View className="menu_dialog_tips">
+            自定义菜单列表, 请用英文逗号分隔
+          </View>
+          <TextArea
+            defaultValue={tempMenu.join(',')}
+            className="menu_dialog_textarea"
+            placeholder="例如 : 梅菜扣肉饭,口水鸡,麻辣烫"
+            onChange={(value) => {
+              setTempMenu(value.split(','));
+            }}
+          />
+        </>
+      </Dialog>
+    </View>
   );
 }

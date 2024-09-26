@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, Ad } from '@tarojs/components';
+import { View, Text, Ad, Video } from '@tarojs/components';
 import {
   Image,
   Button,
@@ -211,7 +211,9 @@ export default function AnalysisDetails() {
                   wrap
                   justify="between"
                   direction="vertical">
-                  <video
+                  <Video
+                    autoPlay={true}
+                    muted={true}
                     onClick={() =>
                       handlePreview(
                         dataDetails.downurl,
@@ -232,7 +234,17 @@ export default function AnalysisDetails() {
                       wrap
                       leftIcon={false}
                       content={
-                        '当视频无法保存时可以复制无水印链接到浏览器中下载,苹果手机需要下载 documents 才能在浏览器中下载视频'
+                        <Space
+                          wrap
+                          direction="vertical">
+                          <View>
+                            当视频无法保存时可以复制无水印链接到浏览器中下载,苹果手机需要下载
+                            documents 才能在浏览器中下载视频
+                          </View>
+                          <View>
+                            或者点击视频播放,然后打开视频窗口[预览视频]后长按保存到本地
+                          </View>
+                        </Space>
                       }
                     />
                     <Space justify="center">
