@@ -87,6 +87,7 @@ export default function EatTodayWhat() {
       .then((res) => {})
       .catch((err) => {
         console.log(err);
+        setMealOptions(BaseMealOptions);
       });
   });
 
@@ -153,7 +154,6 @@ export default function EatTodayWhat() {
       timerRef.current = setInterval(() => {
         // 删除空字符串
         let templateList = mealOptions.filter((item) => item !== '');
-
         const randomIndex = Math.floor(Math.random() * templateList.length);
         setTextContent(templateList[randomIndex]);
       }, 100);
@@ -296,15 +296,15 @@ export default function EatTodayWhat() {
         hideCancelButton
         onConfirm={handleMenuSave}>
         <>
-          <View className="menu_dialog_tips">
-            自定义菜单列表, 请用英文逗号分隔
-          </View>
+          <View className="menu_dialog_tips">自定义菜单列表, 请用逗号分隔</View>
           <TextArea
             defaultValue={tempMenu.join(',')}
             className="menu_dialog_textarea"
             placeholder="例如 : 梅菜扣肉饭,口水鸡,麻辣烫"
             onChange={(value) => {
-              setTempMenu(value.split(','));
+              setTempMenu(
+                Array.from(new Set(value.split(/,|，/).filter((item) => item)))
+              );
             }}
           />
         </>
