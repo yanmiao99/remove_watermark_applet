@@ -32,10 +32,33 @@ export default function HotPosition({ exclude, isShowAll = false }) {
   }
 
   // 点击工具
-  const handleClickGridItem = (url) => {
-    Taro.navigateTo({
-      url: `/subPages/${url}/index`,
-    });
+  const handleClickGridItem = (item) => {
+    const { type, url, appid } = item;
+
+    if (type === 'page') {
+      Taro.navigateTo({
+        url: `/subPages/${url}/index`,
+      });
+    } else if (type === 'applet') {
+      Taro.navigateToMiniProgram({
+        appId: appid,
+      });
+    } else if (type === 'webview') {
+      const resData = {
+        title: item.title,
+        url: item.url,
+      };
+      Taro.navigateTo({
+        url: `/pages/Webview/index?data=${encodeURIComponent(
+          JSON.stringify(resData)
+        )}`,
+      });
+    } else {
+      Taro.showToast({
+        title: '暂未开放',
+        icon: 'none',
+      });
+    }
   };
 
   return (
@@ -49,7 +72,7 @@ export default function HotPosition({ exclude, isShowAll = false }) {
             style={{
               borderRadius: '10px',
             }}
-            onClick={() => handleClickGridItem(item.url)}
+            onClick={() => handleClickGridItem(item)}
             key={item.title}
             text={item.title}>
             <Image

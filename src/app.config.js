@@ -14,11 +14,11 @@ export default defineAppConfig({
         'EatTodayWhat/index',
         'CrazyThursday/index',
         'RandomPassword/index',
-        "NationalDayAvatar/index"
+        "NationalDayAvatar/index",
+        'WebLink/index',
 
         // 'ExpressQuery/index',
         // 'HotSearchList/index',
-        // 'WebLink/index',
         // 'TvBoxOffice/index',
         // 'HistoryToday/index',
         // 'GoldPrice/index',
