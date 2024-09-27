@@ -8,7 +8,9 @@ export default function WebLink() {
     // 获取传递过来的url参数
     const params = Taro.getCurrentInstance().router.params;
 
-    const data = JSON.parse(decodeURIComponent(params.data));
+    const deCode = decodeURIComponent(params.data);
+
+    const data = JSON.parse(deCode);
 
     const { url, title } = data;
 

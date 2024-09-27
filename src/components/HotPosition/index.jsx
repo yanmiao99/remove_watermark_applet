@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { View, Ad, Image } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
-import toolsList from '@/src/global/toolsList';
 import { Grid } from '@nutui/nutui-react-taro';
+import { getGlobalConfig } from '@/src/http/api.js';
 
 /**
  *
@@ -12,9 +12,19 @@ import { Grid } from '@nutui/nutui-react-taro';
  */
 
 export default function HotPosition({ exclude, isShowAll = false }) {
-  const [randomToolsList, setRandomToolsList] = useState(toolsList);
+  const [randomToolsList, setRandomToolsList] = useState([]);
 
   useEffect(() => {
+    getSetting();
+  }, []);
+
+  // 获取工具列表
+  const getSetting = async () => {
+    const res = await getGlobalConfig();
+    const toolsList = res.data.toolList;
+
+    setRandomToolsList(toolsList);
+
     let tempToolsList = toolsList;
 
     // 过滤掉不需要的工具
@@ -36,11 +46,11 @@ export default function HotPosition({ exclude, isShowAll = false }) {
         setRandomToolsList(tempToolsList);
       }
     }
-  }, []);
+  };
 
   // 点击工具
   const handleClickGridItem = (item) => {
-    const { type, url, appid } = item;
+    const { type, url, appid, title } = item;
 
     if (type === 'page') {
       Taro.navigateTo({
@@ -52,11 +62,11 @@ export default function HotPosition({ exclude, isShowAll = false }) {
       });
     } else if (type === 'webview') {
       const resData = {
-        title: item.title,
-        url: item.url,
+        title,
+        url,
       };
       Taro.navigateTo({
-        url: `/pages/Webview/index?data=${encodeURIComponent(
+        url: `/subPages/WebLink/index?data=${encodeURIComponent(
           JSON.stringify(resData)
         )}`,
       });
