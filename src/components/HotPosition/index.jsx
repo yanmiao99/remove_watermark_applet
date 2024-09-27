@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Ad, Image } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import toolsList from '@/src/global/toolsList';
@@ -12,24 +12,31 @@ import { Grid } from '@nutui/nutui-react-taro';
  */
 
 export default function HotPosition({ exclude, isShowAll = false }) {
-  // 工具列表
-  let randomToolsList = toolsList;
+  const [randomToolsList, setRandomToolsList] = useState(toolsList);
 
-  // 过滤掉不需要的工具
-  if (exclude) {
-    randomToolsList = toolsList.filter((item) => {
-      return !exclude.includes(item.url);
-    });
-  }
+  useEffect(() => {
+    let tempToolsList = toolsList;
 
-  if (!isShowAll) {
-    // 随机抽取3个工具
-    if (toolsList.length > 3) {
-      randomToolsList = randomToolsList
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 3);
+    // 过滤掉不需要的工具
+    if (exclude) {
+      tempToolsList = toolsList.filter((item) => {
+        return !exclude.includes(item.url);
+      });
+
+      setRandomToolsList(tempToolsList);
     }
-  }
+
+    if (!isShowAll) {
+      // 随机抽取3个工具
+      if (toolsList.length > 3) {
+        tempToolsList = tempToolsList
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3);
+
+        setRandomToolsList(tempToolsList);
+      }
+    }
+  }, []);
 
   // 点击工具
   const handleClickGridItem = (item) => {
