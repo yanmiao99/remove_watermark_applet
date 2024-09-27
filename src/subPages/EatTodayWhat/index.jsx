@@ -1,11 +1,69 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { View, Image, Ad, Text } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import './index.less';
 import useShare from '@/src/hooks/useShare';
-import anime from 'animejs/lib/anime.es.js';
 import { Dialog, TextArea, Button } from '@nutui/nutui-react-taro';
 import HotPosition from '@/src/components/HotPosition';
+import TextAnimation from './TextAnimation';
+
+const BaseMealOptions = [
+  '宫保鸡丁',
+  '鱼香肉丝',
+  '红烧肉',
+  '清蒸鱼',
+  '番茄炒蛋',
+  '扬州炒饭',
+  '牛肉面',
+  '素炒面',
+  '鸡肉沙拉',
+  '三明治',
+  '麻婆豆腐',
+  '土豆烧牛肉',
+  '青椒肉丝',
+  '炒年糕',
+  '炒河粉',
+  '凉拌黄瓜',
+  '凉拌木耳',
+  '凉拌海带丝',
+  '凉拌豆腐皮',
+  '凉拌西红柿',
+  '烤鸡翅',
+  '烤鱼',
+  '炒蟹',
+  '炒虾',
+  '炒鱿鱼',
+  '寿司卷',
+  '意大利面',
+  '披萨',
+  '汉堡',
+  '炒青菜',
+  '牛肉火锅',
+  '羊肉串',
+  '烤羊排',
+  '红烧肉',
+  '糖醋排骨',
+  '蒸蛋',
+  '蛋花汤',
+  '番茄蛋汤',
+  '紫菜蛋花汤',
+  '鸡蛋羹',
+  '炒土豆丝',
+  '炒茄子',
+  '炒豆角',
+  '炒豆芽',
+  '炒蘑菇',
+  '凉拌苦瓜',
+  '凉拌莴苣',
+  '凉拌菠菜',
+  '凉拌粉丝',
+  '凉拌藕片',
+  '炒豆腐',
+  '炒鸡蛋',
+  '炒肉片',
+  '炒鸡丁',
+  '炒牛肉',
+];
 
 export default function EatTodayWhat() {
   useShare({
@@ -14,64 +72,6 @@ export default function EatTodayWhat() {
     timelineUrl: 'https://qny.weizulin.cn/images/202409201355349.png',
     messageUrl: 'https://qny.weizulin.cn/images/202409251307577.png',
   });
-
-  const BaseMealOptions = [
-    '宫保鸡丁',
-    '鱼香肉丝',
-    '红烧肉',
-    '清蒸鱼',
-    '番茄炒蛋',
-    '扬州炒饭',
-    '牛肉面',
-    '素炒面',
-    '鸡肉沙拉',
-    '三明治',
-    '麻婆豆腐',
-    '土豆烧牛肉',
-    '青椒肉丝',
-    '炒年糕',
-    '炒河粉',
-    '凉拌黄瓜',
-    '凉拌木耳',
-    '凉拌海带丝',
-    '凉拌豆腐皮',
-    '凉拌西红柿',
-    '烤鸡翅',
-    '烤鱼',
-    '炒蟹',
-    '炒虾',
-    '炒鱿鱼',
-    '寿司卷',
-    '意大利面',
-    '披萨',
-    '汉堡',
-    '炒青菜',
-    '牛肉火锅',
-    '羊肉串',
-    '烤羊排',
-    '红烧肉',
-    '糖醋排骨',
-    '蒸蛋',
-    '蛋花汤',
-    '番茄蛋汤',
-    '紫菜蛋花汤',
-    '鸡蛋羹',
-    '炒土豆丝',
-    '炒茄子',
-    '炒豆角',
-    '炒豆芽',
-    '炒蘑菇',
-    '凉拌苦瓜',
-    '凉拌莴苣',
-    '凉拌菠菜',
-    '凉拌粉丝',
-    '凉拌藕片',
-    '炒豆腐',
-    '炒鸡蛋',
-    '炒肉片',
-    '炒鸡丁',
-    '炒牛肉',
-  ];
 
   useDidShow(() => {
     // 判断是否有自定义菜单
@@ -91,20 +91,31 @@ export default function EatTodayWhat() {
       });
   });
 
+  // 文字内容
   const [textContent, setTextContent] = useState('');
 
+  // 按钮文字
   const [btnText, setBtnText] = useState('开始');
 
+  // 文字切换定时器
   const timerRef = useRef(null);
 
+  // 广告计数
   const count = useRef(0);
 
-  const [mealOptions, setMealOptions] = useState(BaseMealOptions);
+  // 菜单
+  const [mealOptions, setMealOptions] = useState([]);
 
+  // 菜单是否显示
   const [menuVisible, setMenuVisible] = useState(false);
 
   // 临时菜单
   const [tempMenu, setTempMenu] = useState([]);
+
+  // 优化
+  const mealOptionsMemo = useMemo(() => {
+    return mealOptions;
+  }, [mealOptions]);
 
   // 插屏广告
   const insertAd = () => {
@@ -138,7 +149,6 @@ export default function EatTodayWhat() {
 
   // 开始 / 结束
   const handleBtnClick = () => {
-    // console.log('count=======>', count);
     if (count.current > 5) {
       count.current = 0;
       insertAd();
@@ -247,23 +257,7 @@ export default function EatTodayWhat() {
 
   return (
     <View className="eat_bg">
-      <View className="eat_bg_text">
-        {mealOptions.map((item, index) => (
-          <Text
-            key={index}
-            className="eat_bg_text_item"
-            style={{
-              top: `${Math.floor(Math.random() * 100)}vh`,
-              left: `${Math.floor(Math.random() * 100)}vw`,
-              transform: `scale(${Math.random() * 0.5 + 1})`,
-              opacity: Math.random(),
-              animationDelay: `${Math.random() * index * 20}s`,
-              animation: `zoom ${Math.random() * 4 + 1}s linear infinite`,
-            }}>
-            {item}
-          </Text>
-        ))}
-      </View>
+      <TextAnimation mealOptions={mealOptionsMemo} />
 
       <View className="eat_wrapper">
         <View className="eat_title">今天吃什么</View>
@@ -309,6 +303,7 @@ export default function EatTodayWhat() {
           />
         </>
       </Dialog>
+
       <View className="eat_recommend_bit">
         <HotPosition exclude={'EatTodayWhat'} />
       </View>

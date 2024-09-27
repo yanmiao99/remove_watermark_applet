@@ -1,0 +1,25 @@
+.eat_bg_text {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  animation: faded 1s linear;
+  .eat_bg_text_item {
+    position: absolute;
+    color: #c9c8c8;
+    white-space: nowrap;
+  }
+}
+
+@keyframes faded {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
