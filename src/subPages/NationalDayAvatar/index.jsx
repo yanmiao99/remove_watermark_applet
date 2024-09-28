@@ -181,18 +181,24 @@ export default function NationalDayAvatar() {
           scrollX={true}
           className="national_day_avatar__preview-scroll">
           <View className="national_day_avatar__preview-template">
-            {avatarTemplate.map((item, index) => (
-              <Image
-                key={item}
-                className={`national_day_avatar__preview-template-item ${
-                  currentSelectedIndex === index && 'is-selected'
-                }`}
-                src={item}
-                onClick={() => handleAvatarTemplateSelect(index)}
-              />
-            ))}
+            <>
+              {avatarTemplate.map((item, index) => (
+                <Image
+                  key={item}
+                  className={`national_day_avatar__preview-template-item ${
+                    currentSelectedIndex === index && 'is-selected'
+                  }`}
+                  src={item}
+                  onClick={() => handleAvatarTemplateSelect(index)}
+                />
+              ))}
+            </>
           </View>
         </ScrollView>
+
+        <View className="national_day_avatar__preview-info">
+          可左右滑动查看更多头像模板
+        </View>
 
         <Button
           size="xlarge"
