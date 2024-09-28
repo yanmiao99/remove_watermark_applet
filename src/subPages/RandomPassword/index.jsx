@@ -109,9 +109,7 @@ export default function RandomPassword() {
             }}
             onFinish={(value) => handleGeneratePassword(value)}
             footer={
-              <Space
-                direction="vertical"
-                style={{ marginTop: '20px ' }}>
+              <View className="password_footer">
                 <View className="password_btn_group">
                   <Button
                     block
@@ -133,7 +131,7 @@ export default function RandomPassword() {
                 <View className="password_notice">
                   注意 : 选项只会保证可选,不保证一定会包含
                 </View>
-              </Space>
+              </View>
             }>
             <Form.Item
               label="密码选项"

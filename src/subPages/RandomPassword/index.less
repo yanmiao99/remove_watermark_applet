@@ -24,34 +24,40 @@
       text-align: center;
     }
     .password_option {
-      .password_btn_group {
+      .password_footer {
         width: 100%;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .password_btn {
-          flex: 1;
-          margin-right: 20px;
+        flex-direction: column;
+        .password_btn_group {
+          width: 100%;
           display: flex;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
-          height: 40px;
-          color: #fff;
-          border-radius: 10px;
-          font-size: 16px;
-          cursor: pointer;
-          &:last-child {
-            margin-right: 0;
-          }
-          Text {
-            margin-left: 5px;
+          margin-top: 20px;
+          .password_btn {
+            flex: 1;
+            margin-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            &:last-child {
+              margin-right: 0;
+            }
+            Text {
+              margin-left: 5px;
+            }
           }
         }
-      }
-      .password_notice {
-        font-size: 14px;
-        color: #666;
-        margin-top: 10px;
+        .password_notice {
+          font-size: 14px;
+          color: #666;
+          margin-top: 10px;
+        }
       }
     }
   }

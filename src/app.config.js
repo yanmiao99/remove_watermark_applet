@@ -16,6 +16,7 @@ export default defineAppConfig({
         'RandomPassword/index',
         "NationalDayAvatar/index",
         'WebLink/index',
+        'QRCodeGenerate/index',
 
         // 'ExpressQuery/index',
         // 'HotSearchList/index',
