@@ -8,6 +8,7 @@ import './index.less';
 import { ArrowRight, Copy, Star } from '@nutui/icons-react-taro';
 import useShare from '@/src/hooks/useShare';
 import HotPosition from '@/src/components/HotPosition';
+import { BASE_COLOR } from '@/src/global/global';
 
 export default function RemoveWatermark() {
   const [loading, setLoading] = useState(false);
@@ -95,6 +96,7 @@ export default function RemoveWatermark() {
             style={{ width: '100%' }}
             justify="end">
             <Button
+              style={{ background: BASE_COLOR }}
               disabled={loading}
               icon={<Copy size="14" />}
               onClick={handlePasteLink}
@@ -105,6 +107,7 @@ export default function RemoveWatermark() {
             </Button>
 
             <Button
+              style={{ background: BASE_COLOR }}
               disabled={loading}
               icon={<Star size="14" />}
               loading={loading}

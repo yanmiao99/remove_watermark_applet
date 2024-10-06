@@ -6,6 +6,7 @@ import useShare from '@/src/hooks/useShare';
 import { Dialog, TextArea, Button } from '@nutui/nutui-react-taro';
 import HotPosition from '@/src/components/HotPosition';
 import TextAnimation from './TextAnimation';
+import { BASE_COLOR } from '@/src/global/global';
 
 const BaseMealOptions = [
   '宫保鸡丁',
@@ -271,6 +272,7 @@ export default function EatTodayWhat() {
         </View>
 
         <Button
+          style={{ background: BASE_COLOR }}
           className="eat_btn"
           onClick={() => handleBtnClick()}
           type="primary">

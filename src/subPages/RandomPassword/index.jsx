@@ -13,6 +13,7 @@ import {
 } from '@nutui/nutui-react-taro';
 import { Reload, Copy } from '@nutui/icons-react-taro';
 import HotPosition from '@/src/components/HotPosition';
+import { BASE_COLOR } from '@/src/global/global';
 
 const optionsMap = {
   number: {
@@ -115,6 +116,7 @@ export default function RandomPassword() {
                     block
                     className="password_btn"
                     type="primary"
+                    style={{ background: BASE_COLOR }}
                     onClick={handleCopy}>
                     <Copy />
                     <Text>复制密码</Text>
@@ -122,6 +124,7 @@ export default function RandomPassword() {
                   <Button
                     nativeType="submit"
                     block
+                    style={{ background: BASE_COLOR }}
                     className="password_btn"
                     type="primary">
                     <Reload />

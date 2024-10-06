@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { View, Text, Ad, Video } from '@tarojs/components';
 import {
   Image,
@@ -24,6 +24,8 @@ export default function AnalysisDetails() {
   const [dataDetails, setDataDetails] = useState({}); // 数据详情
 
   const [tabValue, setTabValue] = useState('0'); // tab切换
+
+  const videoRef = useRef(null);
 
   useDidShow(() => {
     const params = Taro.getCurrentInstance().router.params;
@@ -143,6 +145,10 @@ export default function AnalysisDetails() {
             value={tabValue}
             onChange={(value) => {
               setTabValue(value);
+
+              if (value === '1') {
+                videoRef.current.play();
+              }
             }}
             activeType="card">
             <Tabs.TabPane title="封面">
@@ -191,6 +197,7 @@ export default function AnalysisDetails() {
                     <Button
                       type="primary"
                       className="card_btn"
+                      style={{ background: BASE_COLOR }}
                       icon={<Download size="14" />}
                       onClick={() => handleDownload(dataDetails.photo)}>
                       保存封面
@@ -213,6 +220,7 @@ export default function AnalysisDetails() {
                   justify="between"
                   direction="vertical">
                   <Video
+                    ref={videoRef}
                     autoPlay={true}
                     muted={true}
                     onClick={() =>
@@ -259,6 +267,7 @@ export default function AnalysisDetails() {
                       </Button>
                       <Button
                         type="primary"
+                        style={{ background: BASE_COLOR }}
                         className="card_btn"
                         icon={<Download size="14" />}
                         onClick={() => handleDownload(dataDetails.downurl)}>
@@ -315,6 +324,7 @@ export default function AnalysisDetails() {
                       type="primary"
                       icon={<Download size="14" />}
                       block
+                      style={{ background: BASE_COLOR }}
                       className="card_btn"
                       onClick={() => handleDownload(dataDetails.pics)}>
                       下载全部
@@ -342,6 +352,7 @@ export default function AnalysisDetails() {
                 <Button
                   type="primary"
                   block
+                  style={{ background: BASE_COLOR }}
                   className="card_btn"
                   icon={<Copy size="14" />}
                   onClick={() => handleCopyText(dataDetails.title)}>

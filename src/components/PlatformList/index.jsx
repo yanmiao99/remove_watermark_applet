@@ -19,7 +19,6 @@ const PlatformList = ({ formRef }) => {
 
   const getSetting = async () => {
     const res = await getGlobalConfig();
-    console.log('res.data========', res.data);
     setSettingData(res.data);
   };
 
