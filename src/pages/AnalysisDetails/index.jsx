@@ -19,6 +19,7 @@ import Taro, { useDidShow } from '@tarojs/taro';
 import './index.less';
 import { BASE_COLOR, SUB_COLOR } from '@/src/global/global';
 import HotPosition from '@/src/components/HotPosition';
+const BASE_URL = process.env.TARO_APP_BASE_URL;
 
 export default function AnalysisDetails() {
   const [dataDetails, setDataDetails] = useState({}); // 数据详情
@@ -69,7 +70,7 @@ export default function AnalysisDetails() {
   };
 
   // 下载
-  const handleDownload = (content) => {
+  const handleDownload = (content, type) => {
     if (!content || content === '' || content.length === 0) {
       Taro.showToast({
         title: '暂无下载内容',
@@ -79,49 +80,155 @@ export default function AnalysisDetails() {
       return;
     }
 
-    let images = [];
-    if (Array.isArray(content)) {
-      images = content;
-    } else {
-      images = [content];
-    }
+    if (type === 'video') {
+      // 弹窗提示视频有点大,请耐心等待
+      wx.showModal({
+        title: '提示',
+        content: '视频有点大,请耐心等待',
+        success: function (res) {
+          if (res.confirm) {
+            Taro.showLoading({
+              title: '下载中...',
+              mask: true,
+            });
 
-    images.forEach((item) => {
-      Taro.downloadFile({
-        url: item,
-        success: (res) => {
-          const filePath = res.tempFilePath;
-          Taro.saveImageToPhotosAlbum({
-            filePath,
-            success: () => {
-              Taro.showToast({
-                title: '保存成功',
-                icon: 'success',
-                duration: 2000,
+            let fileName = 'video_123';
+            let filePath = BASE_URL + '/' + fileName + '.mp4';
+
+            wx.downloadFile({
+              url: `${BASE_URL}/parseUrl/downLoadVideo?url=${encodeURIComponent(
+                content
+              )}`,
+              success(res) {
+                Taro.hideLoading();
+                wx.hideLoading();
+                //保存到本地
+                const savedFilePath = res.tempFilePath;
+                //保存文件
+                wx.saveVideoToPhotosAlbum({
+                  filePath: savedFilePath,
+                  success: function (data) {
+                    wx.showModal({
+                      title: '提示',
+                      content: '下载成功，视频已保存至您的相册',
+                    });
+                  },
+                  fail: function (err) {
+                    Taro.hideLoading();
+                    console.log(err);
+                    wx.showModal({
+                      title: '提示',
+                      content:
+                        '保存失败,需要您授权保存相册,请手动通过小程序的设置功能授权使用相册,再进行下载',
+                    });
+                  },
+                  complete: function () {
+                    Taro.hideLoading();
+                    /* 删除文件缓存，否则类积超过10M保存失败 */
+                    let fileMgr = wx.getFileSystemManager();
+                    fileMgr.unlink({
+                      filePath: filePath,
+                      success: function (r) {
+                        console.log('删除成功');
+                      },
+                    });
+                  },
+                });
+              },
+              fail: function (err) {
+                wx.hideLoading();
+                wx.showModal({
+                  title: '提示',
+                  content: '下载失败,可能文件太大，请复制链接到浏览器中下载',
+                });
+              },
+            }).onProgressUpdate((res) => {
+              // 字节转mb
+              const totalBytesWritten = res.totalBytesWritten / 1024 / 1024;
+              Taro.showLoading({
+                title: `${totalBytesWritten.toFixed(2)}MB`,
+                mask: true,
               });
-            },
-            fail: () => {
-              Taro.showToast({
-                title: '保存失败',
-                icon: 'none',
-                duration: 2000,
-              });
-            },
-          });
-        },
-        fail: (err) => {
-          console.log('err========', err);
-          // 弹窗告知用户使用复制链接的方式在浏览器中打开下载
-          Taro.showModal({
-            title: '下载失败',
-            content:
-              '请使用复制链接的方式在浏览器中打开下载,或者点击图片或者视频预览后长按保存到本地',
-            showCancel: false,
-            confirmText: '知道了',
-          });
+            });
+          }
         },
       });
-    });
+    }
+
+    if (type === 'img') {
+      Taro.showLoading({
+        title: '下载中...',
+        mask: true,
+      });
+
+      // 图片转换为数组
+      let images = [];
+      if (Array.isArray(content)) {
+        images = content;
+      } else {
+        images = [content];
+      }
+
+      let fileName = 'image_123';
+      let filePath = BASE_URL + '/' + fileName + '.jpeg';
+
+      // 需要是用 forEach 循环请求 downLoadPics 接口, 并且传入 url  参数, 最后用 Promise.all() 来处理所有的请求 , 然后保存到本地
+      let promiseArr = [];
+      images.forEach((item) => {
+        promiseArr.push(
+          new Promise((resolve, reject) => {
+            wx.downloadFile({
+              url: `${BASE_URL}/parseUrl/downLoadPics?url=${encodeURIComponent(
+                item
+              )}`,
+              success(res) {
+                //保存到本地
+                let savedFilePath = res.tempFilePath;
+                //保存文件
+                wx.saveImageToPhotosAlbum({
+                  filePath: savedFilePath,
+                  success: function (data) {
+                    resolve('success');
+                  },
+                  fail: function (err) {
+                    reject('fail');
+                  },
+                  complete: function () {
+                    /* 删除文件缓存，否则类积超过10M保存失败 */
+                    let fileMgr = wx.getFileSystemManager();
+                    fileMgr.unlink({
+                      filePath: filePath,
+                      success: function (r) {
+                        console.log('删除成功');
+                      },
+                    });
+                  },
+                });
+              },
+              fail: function (err) {
+                reject('fail');
+              },
+            });
+          })
+        );
+      });
+
+      Promise.all(promiseArr)
+        .then((res) => {
+          wx.showModal({
+            title: '提示',
+            content: '下载成功，文件已保存至您的相册',
+          });
+          Taro.hideLoading();
+        })
+        .catch((err) => {
+          wx.showModal({
+            title: '提示',
+            content: '下载失败,可能文件太大，请复制链接到浏览器中下载',
+          });
+          Taro.hideLoading();
+        });
+    }
   };
 
   // 跳转页面
@@ -145,10 +252,6 @@ export default function AnalysisDetails() {
             value={tabValue}
             onChange={(value) => {
               setTabValue(value);
-
-              if (value === '1') {
-                videoRef.current.play();
-              }
             }}
             activeType="card">
             <Tabs.TabPane title="封面">
@@ -199,7 +302,7 @@ export default function AnalysisDetails() {
                       className="card_btn"
                       style={{ background: BASE_COLOR }}
                       icon={<Download size="14" />}
-                      onClick={() => handleDownload(dataDetails.photo)}>
+                      onClick={() => handleDownload(dataDetails.photo, 'img')}>
                       保存封面
                     </Button>
                   </Space>
@@ -270,7 +373,9 @@ export default function AnalysisDetails() {
                         style={{ background: BASE_COLOR }}
                         className="card_btn"
                         icon={<Download size="14" />}
-                        onClick={() => handleDownload(dataDetails.downurl)}>
+                        onClick={() =>
+                          handleDownload(dataDetails.downurl, 'video')
+                        }>
                         保存视频
                       </Button>
                     </Space>
@@ -326,7 +431,7 @@ export default function AnalysisDetails() {
                       block
                       style={{ background: BASE_COLOR }}
                       className="card_btn"
-                      onClick={() => handleDownload(dataDetails.pics)}>
+                      onClick={() => handleDownload(dataDetails.pics, 'img')}>
                       下载全部
                     </Button>
                   </Space>
