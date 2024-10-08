@@ -5,7 +5,7 @@ import { analysisURL } from '@/src/http/api.js';
 import Taro from '@tarojs/taro';
 import PlatformList from '@/src/components/PlatformList';
 import './index.less';
-import { ArrowRight, Copy, Star } from '@nutui/icons-react-taro';
+import { ArrowRight, Copy, Star, Share } from '@nutui/icons-react-taro';
 import useShare from '@/src/hooks/useShare';
 import HotPosition from '@/src/components/HotPosition';
 import { BASE_COLOR } from '@/src/global/global';
@@ -15,7 +15,7 @@ export default function RemoveWatermark() {
   const [formRef] = Form.useForm();
 
   useShare({
-    title: '免费去水印',
+    title: '我正在使用短视频免费去水印工具，快来试试吧！',
     path: '/pages/RemoveWatermark/index',
   });
 
@@ -135,6 +135,14 @@ export default function RemoveWatermark() {
           <TextArea placeholder="请粘贴视频链接或者图集链接" />
         </Form.Item>
       </Form>
+
+      <button
+        className="share_box"
+        open-type="share"
+        style={{ color: BASE_COLOR }}>
+        <View>点击分享给好友,共同解锁更多有趣的视频</View>
+        <Share />
+      </button>
 
       <View className="operation">
         <HotPosition />
