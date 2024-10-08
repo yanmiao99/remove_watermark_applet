@@ -54,7 +54,7 @@
     }
   }
   .code_desc {
-    font-size: 14px;
+    font-size: 20px;
     color: #666;
     margin-top: 20px;
     text-align: center;
@@ -75,5 +75,19 @@
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
+
+    // 左右抖动动画, 无限循环, 每次动画持续时间2s , 然后延时1s再开始下一次动画
+    animation: shake 0.5s infinite;
+    @keyframes shake {
+      0% {
+        transform: translateX(-2px);
+      }
+      50% {
+        transform: translateX(2px);
+      }
+      100% {
+        transform: translateX(-2px);
+      }
+    }
   }
 }

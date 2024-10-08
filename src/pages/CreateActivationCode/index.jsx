@@ -152,8 +152,13 @@ export default function CreateActivationCode() {
       </View>
 
       <View className="code_desc">
-        <View>一次激活码的有效期是当天内无限次使用</View>
-        <View>点击下方按钮观看广告生成激活码</View>
+        <View>点击生成激活码, 看30S广告</View>
+        <View
+          style={{
+            color: BASE_COLOR,
+          }}>
+          可免费使用1天
+        </View>
       </View>
 
       <View

@@ -69,6 +69,161 @@ export default function AnalysisDetails() {
     });
   };
 
+  // 下载视频
+  const downloadVideo = (content) => {
+    // 弹窗提示视频有点大,请耐心等待
+    wx.showModal({
+      title: '提示',
+      content: '视频有点大,请耐心等待',
+      success: function (res) {
+        if (res.confirm) {
+          Taro.showLoading({
+            title: '下载中...',
+            mask: true,
+          });
+
+          let fileName = 'video_123';
+          let filePath = BASE_URL + '/' + fileName + '.mp4';
+
+          wx.downloadFile({
+            url: `${BASE_URL}/parseUrl/downLoadVideo?url=${encodeURIComponent(
+              content
+            )}`,
+            success(res) {
+              Taro.hideLoading();
+              wx.hideLoading();
+              //保存到本地
+              const savedFilePath = res.tempFilePath;
+              //保存文件
+              wx.saveVideoToPhotosAlbum({
+                filePath: savedFilePath,
+                success: function (data) {
+                  wx.showModal({
+                    title: '提示',
+                    content: '下载成功，视频已保存至您的相册',
+                  });
+                },
+                fail: function (err) {
+                  Taro.hideLoading();
+                  console.log(err);
+                  wx.showModal({
+                    title: '提示',
+                    content:
+                      '保存失败,需要您授权保存相册,请手动通过小程序的设置功能授权使用相册,再进行下载',
+                  });
+                },
+                complete: function () {
+                  Taro.hideLoading();
+                  /* 删除文件缓存，否则类积超过10M保存失败 */
+                  let fileMgr = wx.getFileSystemManager();
+                  fileMgr.unlink({
+                    filePath: filePath,
+                    success: function (r) {
+                      console.log('删除成功');
+                    },
+                  });
+                },
+              });
+            },
+            fail: function (err) {
+              wx.hideLoading();
+              wx.showModal({
+                title: '提示',
+                content: '下载失败,可能文件太大，请复制链接到浏览器中下载',
+              });
+            },
+          }).onProgressUpdate((res) => {
+            // 字节转mb
+            const totalBytesWritten = res.totalBytesWritten / 1024 / 1024;
+            Taro.showLoading({
+              title: `${totalBytesWritten.toFixed(2)}MB`,
+              mask: true,
+            });
+          });
+        }
+      },
+    });
+  };
+
+  // 打开广告
+  const handleOpenAd = (content) => {
+    Taro.hideLoading();
+    Taro.showLoading({
+      title: '广告加载中',
+    });
+
+    // 在页面中定义激励视频广告
+    let videoAd = null;
+
+    // 在页面onLoad回调事件中创建激励视频广告实例
+    if (wx.createRewardedVideoAd) {
+      videoAd = wx.createRewardedVideoAd({
+        adUnitId: 'adunit-0f05e15535d92f93',
+      });
+      videoAd.onLoad(() => {
+        console.log('激励视频 广告加载成功');
+        Taro.hideLoading();
+      });
+      videoAd.onError((err) => {
+        console.error('激励视频光告加载失败', err);
+        Taro.hideLoading();
+        Taro.showToast({
+          title: '加载错误,请重新进入小程序',
+          icon: 'none',
+          duration: 2000,
+        });
+      });
+      videoAd.onClose((res) => {
+        // 用户点击了【关闭广告】按钮
+        if (res && res.isEnded) {
+          Taro.hideLoading();
+          // 正常播放结束，可以下发游戏奖励
+          downloadVideo(content);
+        } else {
+          // 播放中途退出，不下发游戏奖励
+          Taro.showToast({
+            title: '观看完整广告才能获得奖励',
+            icon: 'none',
+            duration: 2000,
+          });
+        }
+      });
+    } else {
+      Taro.showToast({
+        title: '加载错误,请重新进入小程序',
+        icon: 'none',
+        duration: 2000,
+      });
+    }
+
+    // 用户触发广告后，显示激励视频广告
+    if (videoAd) {
+      videoAd.show().catch(() => {
+        // 失败重试
+        videoAd
+          .load()
+          .then(() => {
+            Taro.hideLoading();
+            videoAd.show();
+          })
+          .catch((err) => {
+            console.error('激励视频 广告显示失败', err);
+            Taro.showToast({
+              title: '加载错误,请重新进入小程序',
+              icon: 'none',
+              duration: 2000,
+            });
+          });
+      });
+    } else {
+      Taro.showToast({
+        title: '加载错误,请重新进入小程序',
+        icon: 'none',
+        duration: 2000,
+      });
+    }
+  };
+
   // 下载
   const handleDownload = (content, type) => {
     if (!content || content === '' || content.length === 0) {
@@ -81,75 +236,21 @@ export default function AnalysisDetails() {
     }
 
     if (type === 'video') {
-      // 弹窗提示视频有点大,请耐心等待
-      wx.showModal({
+      // 提示用户优先使用复制链接到浏览器中下载 , 如果一定要是用小程序下载 , 则需要观看广告才能下载
+      Taro.showModal({
         title: '提示',
-        content: '视频有点大,请耐心等待',
+        content:
+          '请优先使用复制链接到浏览器中下载,如果一定要使用小程序下载,则需要观看广告才能下载',
+        // 对调按钮位置
+        showCancel: true,
+        cancelText: '复制链接',
+        confirmText: '观看广告',
         success: function (res) {
           if (res.confirm) {
-            Taro.showLoading({
-              title: '下载中...',
-              mask: true,
-            });
-
-            let fileName = 'video_123';
-            let filePath = BASE_URL + '/' + fileName + '.mp4';
-
-            wx.downloadFile({
-              url: `${BASE_URL}/parseUrl/downLoadVideo?url=${encodeURIComponent(
-                content
-              )}`,
-              success(res) {
-                Taro.hideLoading();
-                wx.hideLoading();
-                //保存到本地
-                const savedFilePath = res.tempFilePath;
-                //保存文件
-                wx.saveVideoToPhotosAlbum({
-                  filePath: savedFilePath,
-                  success: function (data) {
-                    wx.showModal({
-                      title: '提示',
-                      content: '下载成功，视频已保存至您的相册',
-                    });
-                  },
-                  fail: function (err) {
-                    Taro.hideLoading();
-                    console.log(err);
-                    wx.showModal({
-                      title: '提示',
-                      content:
-                        '保存失败,需要您授权保存相册,请手动通过小程序的设置功能授权使用相册,再进行下载',
-                    });
-                  },
-                  complete: function () {
-                    Taro.hideLoading();
-                    /* 删除文件缓存，否则类积超过10M保存失败 */
-                    let fileMgr = wx.getFileSystemManager();
-                    fileMgr.unlink({
-                      filePath: filePath,
-                      success: function (r) {
-                        console.log('删除成功');
-                      },
-                    });
-                  },
-                });
-              },
-              fail: function (err) {
-                wx.hideLoading();
-                wx.showModal({
-                  title: '提示',
-                  content: '下载失败,可能文件太大，请复制链接到浏览器中下载',
-                });
-              },
-            }).onProgressUpdate((res) => {
-              // 字节转mb
-              const totalBytesWritten = res.totalBytesWritten / 1024 / 1024;
-              Taro.showLoading({
-                title: `${totalBytesWritten.toFixed(2)}MB`,
-                mask: true,
-              });
-            });
+            handleOpenAd(content);
+          }
+          if (res.cancel) {
+            handleCopyText(content);
           }
         },
       });

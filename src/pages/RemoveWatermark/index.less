@@ -26,16 +26,19 @@
   border-radius: 10px;
   box-sizing: border-box;
   animation: breathe 2s infinite;
+  .share_text {
+    color: #333;
+  }
 
   @keyframes breathe {
     0% {
-      transform: scale(0.98);
+      transform: scale(1);
     }
     50% {
-      transform: scale(1.02);
+      transform: scale(1.01);
     }
     100% {
-      transform: scale(0.98);
+      transform: scale(1);
     }
   }
 }

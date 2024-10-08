@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { TextArea, Button, Form, Space, Cell } from '@nutui/nutui-react-taro';
 import { View, Ad } from '@tarojs/components';
 import { analysisURL } from '@/src/http/api.js';
@@ -18,6 +18,91 @@ export default function RemoveWatermark() {
     title: '我正在使用短视频免费去水印工具，快来试试吧！',
     path: '/pages/RemoveWatermark/index',
   });
+
+  const handleOpenAd = () => {
+    Taro.hideLoading();
+    Taro.showLoading({
+      title: '广告加载中',
+    });
+
+    // 在页面中定义激励视频广告
+    let videoAd = null;
+
+    // 在页面onLoad回调事件中创建激励视频广告实例
+    if (wx.createRewardedVideoAd) {
+      videoAd = wx.createRewardedVideoAd({
+        adUnitId: 'adunit-b2b28b1dbc2db36a',
+      });
+      videoAd.onLoad(() => {
+        console.log('激励视频 广告加载成功');
+        Taro.hideLoading();
+      });
+      videoAd.onError((err) => {
+        console.error('激励视频光告加载失败', err);
+        Taro.hideLoading();
+        Taro.showToast({
+          title: '加载错误,请重新进入小程序',
+          icon: 'none',
+          duration: 2000,
+        });
+      });
+      videoAd.onClose((res) => {
+        // 用户点击了【关闭广告】按钮
+        if (res && res.isEnded) {
+          Taro.hideLoading();
+          // 重置解析次数
+          Taro.setStorageSync('analysisCount', 0);
+
+          // 提示
+          Taro.showToast({
+            title: '您已获得解析次数',
+            icon: 'success',
+            duration: 2000,
+          });
+        } else {
+          // 播放中途退出，不下发游戏奖励
+          Taro.showToast({
+            title: '观看完整广告才能获得奖励',
+            icon: 'none',
+            duration: 2000,
+          });
+        }
+      });
+    } else {
+      Taro.showToast({
+        title: '加载错误,请重新进入小程序',
+        icon: 'none',
+        duration: 2000,
+      });
+    }
+
+    // 用户触发广告后，显示激励视频广告
+    if (videoAd) {
+      videoAd.show().catch(() => {
+        // 失败重试
+        videoAd
+          .load()
+          .then(() => {
+            Taro.hideLoading();
+            videoAd.show();
+          })
+          .catch((err) => {
+            console.error('激励视频 广告显示失败', err);
+            Taro.showToast({
+              title: '加载错误,请重新进入小程序',
+              icon: 'none',
+              duration: 2000,
+            });
+          });
+      });
+    } else {
+      Taro.showToast({
+        title: '加载错误,请重新进入小程序',
+        icon: 'none',
+        duration: 2000,
+      });
+    }
+  };
 
   // 提交表单
   const onFinish = async (values) => {
@@ -41,13 +126,46 @@ export default function RemoveWatermark() {
       setLoading(false);
     }, 2000);
 
+    // 存储当前解析次数 , 和今天的日期
+    const analysisCount = Taro.getStorageSync('analysisCount') || 0;
+    const today = new Date().toLocaleDateString();
+    const lastDate = Taro.getStorageSync('lastDate') || today;
+
+    // 如果不是今天的日期，重置解析次数
+    if (today !== lastDate) {
+      Taro.setStorageSync('analysisCount', 5);
+      Taro.setStorageSync('lastDate', today);
+    }
+
+    if (analysisCount >= 5) {
+      Taro.showModal({
+        title: '提示',
+        content: '今日解析次数已用完，观看广告获取更多解析次数',
+        confirmText: '观看广告',
+        success: function (res) {
+          if (res.confirm) {
+            handleOpenAd(url);
+          }
+        },
+      });
+      return;
+    }
+
+    Taro.setStorageSync('analysisCount', analysisCount + 1);
+    Taro.setStorageSync('lastDate', today);
+
+    // 解析链接
+    handleAnalysisFn(url);
+  };
+
+  // 解析链接
+  const handleAnalysisFn = async (url) => {
     const res = await analysisURL({
       url,
       platform: 'WeChatApplet',
     });
 
     const resData = res.data;
-    console.log('resData========', resData);
     setLoading(false);
 
     // 跳转到详情页
@@ -140,7 +258,9 @@ export default function RemoveWatermark() {
         className="share_box"
         open-type="share"
         style={{ color: BASE_COLOR }}>
-        <View>点击分享给好友,共同解锁更多有趣的视频</View>
+        <View className="share_text">
+          <View>分享给好友,获取更多乐趣~ </View>
+        </View>
         <Share />
       </button>
 
