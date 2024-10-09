@@ -2,13 +2,13 @@ import { useState, useRef } from 'react';
 import { TextArea, Button, Form, Space, Cell } from '@nutui/nutui-react-taro';
 import { View, Ad } from '@tarojs/components';
 import { analysisURL } from '@/src/http/api.js';
-import Taro from '@tarojs/taro';
 import PlatformList from '@/src/components/PlatformList';
 import './index.less';
 import { ArrowRight, Copy, Star, Share } from '@nutui/icons-react-taro';
 import useShare from '@/src/hooks/useShare';
 import HotPosition from '@/src/components/HotPosition';
 import { BASE_COLOR } from '@/src/global/global';
+import Taro, { useDidShow } from '@tarojs/taro';
 
 export default function RemoveWatermark() {
   const [loading, setLoading] = useState(false);
@@ -17,6 +17,17 @@ export default function RemoveWatermark() {
   useShare({
     title: '我正在使用短视频免费去水印工具，快来试试吧！',
     path: '/pages/RemoveWatermark/index',
+  });
+
+  useDidShow(() => {
+    const today = new Date().toLocaleDateString();
+    const lastDate = Taro.getStorageSync('lastDate') || today;
+
+    // 如果不是今天的日期，重置解析次数
+    if (today !== lastDate) {
+      Taro.setStorageSync('analysisCount', 0);
+      Taro.setStorageSync('lastDate', today);
+    }
   });
 
   const handleOpenAd = () => {
@@ -129,13 +140,13 @@ export default function RemoveWatermark() {
     // 存储当前解析次数 , 和今天的日期
     const analysisCount = Taro.getStorageSync('analysisCount') || 0;
     const today = new Date().toLocaleDateString();
-    const lastDate = Taro.getStorageSync('lastDate') || today;
+    // const lastDate = Taro.getStorageSync('lastDate') || today;
 
-    // 如果不是今天的日期，重置解析次数
-    if (today !== lastDate) {
-      Taro.setStorageSync('analysisCount', 0);
-      Taro.setStorageSync('lastDate', today);
-    }
+    // // 如果不是今天的日期，重置解析次数
+    // if (today !== lastDate) {
+    //   Taro.setStorageSync('analysisCount', 0);
+    //   Taro.setStorageSync('lastDate', today);
+    // }
 
     if (analysisCount >= 5) {
       Taro.showModal({
