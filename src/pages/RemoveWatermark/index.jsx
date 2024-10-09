@@ -133,7 +133,7 @@ export default function RemoveWatermark() {
 
     // 如果不是今天的日期，重置解析次数
     if (today !== lastDate) {
-      Taro.setStorageSync('analysisCount', 5);
+      Taro.setStorageSync('analysisCount', 0);
       Taro.setStorageSync('lastDate', today);
     }
 
@@ -261,7 +261,7 @@ export default function RemoveWatermark() {
         <View className="share_text">
           <View>分享给好友,获取更多乐趣~ </View>
         </View>
-        <Share />
+        <Share className="share_btn" />
       </button>
 
       <View className="operation">

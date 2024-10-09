@@ -1,44 +1,74 @@
-.watermark_btn {
-  margin-top: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 35px;
-  line-height: 35px;
-  text-align: center;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  border-color: transparent !important;
-}
-
-.share_box {
-  all: unset;
-  &:after {
-    border: none;
-  }
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  padding: 20px 10px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  animation: breathe 2s infinite;
-  .share_text {
-    color: #333;
+.remove_watermark_wrapper {
+  .watermark_btn {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-color: transparent !important;
   }
 
-  @keyframes breathe {
-    0% {
-      transform: scale(1);
+  .share_box {
+    all: unset;
+    &:after {
+      border: none;
     }
-    50% {
-      transform: scale(1.01);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    animation: breathe 2s infinite;
+    .share_text {
+      color: #333;
     }
-    100% {
-      transform: scale(1);
+
+    .share_btn {
+      // 晃动动画
+      animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
+    }
+
+    @keyframes shake {
+      10%,
+      90% {
+        transform: translate3d(-1px, 0, 0);
+      }
+
+      20%,
+      80% {
+        transform: translate3d(2px, 0, 0);
+      }
+
+      30%,
+      50%,
+      70% {
+        transform: translate3d(-4px, 0, 0);
+      }
+
+      40%,
+      60% {
+        transform: translate3d(4px, 0, 0);
+      }
+    }
+
+    @keyframes breathe {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.01);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
   }
 }
